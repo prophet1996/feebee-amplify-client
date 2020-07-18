@@ -1,0 +1,24 @@
+type Todo @model {
+  id: ID!
+  name: String!
+  description: String
+}
+
+enum FoodCategory {
+  NONVEG
+  VEG 
+}
+
+
+ type FoodPost @model{
+  name: String!
+  price: Float!
+  description: String!
+  category: FoodCategory!
+  cuisineTags: [String]!
+  cookingTime: String!
+  cookingDate:String!
+  createdAt: String!
+  uploadedImageUrl:String!
+  servings:Int!
+}

@@ -1,0 +1,44 @@
+{
+	"api": {
+		"feebeeamplifyclient": {
+			"service": "AppSync",
+			"providerPlugin": "awscloudformation",
+			"output": {
+				"authConfig": {
+					"additionalAuthenticationProviders": [],
+					"defaultAuthentication": {
+						"authenticationType": "API_KEY",
+						"apiKeyConfig": {
+							"description": "graph_api_client",
+							"apiKeyExpirationDays": 365
+						}
+					}
+				}
+			}
+		}
+	},
+	"auth": {
+		"userPoolGroups": {
+			"service": "Cognito-UserPool-Groups",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [
+				{
+					"category": "auth",
+					"resourceName": "feebeeAuth",
+					"attributes": [
+						"UserPoolId",
+						"AppClientIDWeb",
+						"AppClientID",
+						"IdentityPoolId"
+					]
+				}
+			]
+		},
+		"feebeeAuth": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": []
+		}
+	},
+	"hosting": {}
+}
