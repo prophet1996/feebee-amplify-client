@@ -1,8 +1,4 @@
-type Todo @model {
-  id: ID!
-  name: String!
-  description: String
-}
+
 
 enum FoodCategory {
   NONVEG
@@ -10,7 +6,8 @@ enum FoodCategory {
 }
 
 
- type FoodPost @model{
+ type FoodPost @model @auth(rules: [{ allow: owner }]) {
+  id:ID!
   name: String!
   price: Float!
   description: String!
@@ -21,4 +18,16 @@ enum FoodCategory {
   createdAt: String!
   uploadedImageUrl:String!
   servings:Int!
+}
+
+
+
+type User @model @auth(rules: [{ allow: owner }]) {
+  id:ID!
+  phoneNumber: String!
+  displayName: String!
+  firstName: String!
+  lastName: String!
+  aadharCardLink:String!
+  documentLink: String!
 }

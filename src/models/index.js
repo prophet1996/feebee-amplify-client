@@ -6,11 +6,18 @@ const FoodCategory = {
   "NONVEG": "NONVEG",
   "VEG": "VEG"
 };
+let FoodPost;
+let User;
+let models;
 
-const { Todo, FoodPost } = initSchema(schema);
+if (typeof window !== "undefined") {
+  models = initSchema(schema);
+  FoodPost=models.FoodPost;
+  User=models.User;
+}
 
 export {
-  Todo,
   FoodPost,
+  User,
   FoodCategory
 };

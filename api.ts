@@ -2,18 +2,40 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
-export type CreateTodoInput = {
+export type CreateFoodPostInput = {
   id?: string | null,
   name: string,
-  description?: string | null,
+  price: number,
+  description: string,
+  category: FoodCategory,
+  cuisineTags: Array< string | null >,
+  cookingTime: string,
+  cookingDate: string,
+  createdAt?: string | null,
+  uploadedImageUrl: string,
+  servings: number,
 };
 
-export type ModelTodoConditionInput = {
+export enum FoodCategory {
+  NONVEG = "NONVEG",
+  VEG = "VEG",
+}
+
+
+export type ModelFoodPostConditionInput = {
   name?: ModelStringInput | null,
+  price?: ModelFloatInput | null,
   description?: ModelStringInput | null,
-  and?: Array< ModelTodoConditionInput | null > | null,
-  or?: Array< ModelTodoConditionInput | null > | null,
-  not?: ModelTodoConditionInput | null,
+  category?: ModelFoodCategoryInput | null,
+  cuisineTags?: ModelStringInput | null,
+  cookingTime?: ModelStringInput | null,
+  cookingDate?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  uploadedImageUrl?: ModelStringInput | null,
+  servings?: ModelIntInput | null,
+  and?: Array< ModelFoodPostConditionInput | null > | null,
+  or?: Array< ModelFoodPostConditionInput | null > | null,
+  not?: ModelFoodPostConditionInput | null,
 };
 
 export type ModelStringInput = {
@@ -56,51 +78,6 @@ export type ModelSizeInput = {
   between?: Array< number | null > | null,
 };
 
-export type UpdateTodoInput = {
-  id: string,
-  name?: string | null,
-  description?: string | null,
-};
-
-export type DeleteTodoInput = {
-  id?: string | null,
-};
-
-export type CreateFoodPostInput = {
-  name: string,
-  price: number,
-  description: string,
-  category: FoodCategory,
-  cuisineTags: Array< string | null >,
-  cookingTime: string,
-  cookingDate: string,
-  createdAt?: string | null,
-  uploadedImageUrl: string,
-  servings: number,
-};
-
-export enum FoodCategory {
-  NONVEG = "NONVEG",
-  VEG = "VEG",
-}
-
-
-export type ModelFoodPostConditionInput = {
-  name?: ModelStringInput | null,
-  price?: ModelFloatInput | null,
-  description?: ModelStringInput | null,
-  category?: ModelFoodCategoryInput | null,
-  cuisineTags?: ModelStringInput | null,
-  cookingTime?: ModelStringInput | null,
-  cookingDate?: ModelStringInput | null,
-  createdAt?: ModelStringInput | null,
-  uploadedImageUrl?: ModelStringInput | null,
-  servings?: ModelIntInput | null,
-  and?: Array< ModelFoodPostConditionInput | null > | null,
-  or?: Array< ModelFoodPostConditionInput | null > | null,
-  not?: ModelFoodPostConditionInput | null,
-};
-
 export type ModelFloatInput = {
   ne?: number | null,
   eq?: number | null,
@@ -131,6 +108,7 @@ export type ModelIntInput = {
 };
 
 export type UpdateFoodPostInput = {
+  id: string,
   name?: string | null,
   price?: number | null,
   description?: string | null,
@@ -147,13 +125,55 @@ export type DeleteFoodPostInput = {
   id?: string | null,
 };
 
-export type ModelTodoFilterInput = {
+export type CreateUserInput = {
+  phoneNumber: string,
+  displayName: string,
+  firstName: string,
+  lastName: string,
+  aadharCardLink: string,
+  documentLink: string,
+};
+
+export type ModelUserConditionInput = {
+  phoneNumber?: ModelStringInput | null,
+  displayName?: ModelStringInput | null,
+  firstName?: ModelStringInput | null,
+  lastName?: ModelStringInput | null,
+  aadharCardLink?: ModelStringInput | null,
+  documentLink?: ModelStringInput | null,
+  and?: Array< ModelUserConditionInput | null > | null,
+  or?: Array< ModelUserConditionInput | null > | null,
+  not?: ModelUserConditionInput | null,
+};
+
+export type UpdateUserInput = {
+  phoneNumber?: string | null,
+  displayName?: string | null,
+  firstName?: string | null,
+  lastName?: string | null,
+  aadharCardLink?: string | null,
+  documentLink?: string | null,
+};
+
+export type DeleteUserInput = {
+  id?: string | null,
+};
+
+export type ModelFoodPostFilterInput = {
   id?: ModelIDInput | null,
   name?: ModelStringInput | null,
+  price?: ModelFloatInput | null,
   description?: ModelStringInput | null,
-  and?: Array< ModelTodoFilterInput | null > | null,
-  or?: Array< ModelTodoFilterInput | null > | null,
-  not?: ModelTodoFilterInput | null,
+  category?: ModelFoodCategoryInput | null,
+  cuisineTags?: ModelStringInput | null,
+  cookingTime?: ModelStringInput | null,
+  cookingDate?: ModelStringInput | null,
+  createdAt?: ModelStringInput | null,
+  uploadedImageUrl?: ModelStringInput | null,
+  servings?: ModelIntInput | null,
+  and?: Array< ModelFoodPostFilterInput | null > | null,
+  or?: Array< ModelFoodPostFilterInput | null > | null,
+  not?: ModelFoodPostFilterInput | null,
 };
 
 export type ModelIDInput = {
@@ -172,68 +192,16 @@ export type ModelIDInput = {
   size?: ModelSizeInput | null,
 };
 
-export type ModelFoodPostFilterInput = {
-  name?: ModelStringInput | null,
-  price?: ModelFloatInput | null,
-  description?: ModelStringInput | null,
-  category?: ModelFoodCategoryInput | null,
-  cuisineTags?: ModelStringInput | null,
-  cookingTime?: ModelStringInput | null,
-  cookingDate?: ModelStringInput | null,
-  createdAt?: ModelStringInput | null,
-  uploadedImageUrl?: ModelStringInput | null,
-  servings?: ModelIntInput | null,
-  and?: Array< ModelFoodPostFilterInput | null > | null,
-  or?: Array< ModelFoodPostFilterInput | null > | null,
-  not?: ModelFoodPostFilterInput | null,
-};
-
-export type CreateTodoMutationVariables = {
-  input: CreateTodoInput,
-  condition?: ModelTodoConditionInput | null,
-};
-
-export type CreateTodoMutation = {
-  createTodo:  {
-    __typename: "Todo",
-    id: string,
-    name: string,
-    description: string | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type UpdateTodoMutationVariables = {
-  input: UpdateTodoInput,
-  condition?: ModelTodoConditionInput | null,
-};
-
-export type UpdateTodoMutation = {
-  updateTodo:  {
-    __typename: "Todo",
-    id: string,
-    name: string,
-    description: string | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
-};
-
-export type DeleteTodoMutationVariables = {
-  input: DeleteTodoInput,
-  condition?: ModelTodoConditionInput | null,
-};
-
-export type DeleteTodoMutation = {
-  deleteTodo:  {
-    __typename: "Todo",
-    id: string,
-    name: string,
-    description: string | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
+export type ModelUserFilterInput = {
+  phoneNumber?: ModelStringInput | null,
+  displayName?: ModelStringInput | null,
+  firstName?: ModelStringInput | null,
+  lastName?: ModelStringInput | null,
+  aadharCardLink?: ModelStringInput | null,
+  documentLink?: ModelStringInput | null,
+  and?: Array< ModelUserFilterInput | null > | null,
+  or?: Array< ModelUserFilterInput | null > | null,
+  not?: ModelUserFilterInput | null,
 };
 
 export type CreateFoodPostMutationVariables = {
@@ -244,6 +212,7 @@ export type CreateFoodPostMutationVariables = {
 export type CreateFoodPostMutation = {
   createFoodPost:  {
     __typename: "FoodPost",
+    id: string,
     name: string,
     price: number,
     description: string,
@@ -255,6 +224,7 @@ export type CreateFoodPostMutation = {
     uploadedImageUrl: string,
     servings: number,
     updatedAt: string,
+    owner: string | null,
   } | null,
 };
 
@@ -266,6 +236,7 @@ export type UpdateFoodPostMutationVariables = {
 export type UpdateFoodPostMutation = {
   updateFoodPost:  {
     __typename: "FoodPost",
+    id: string,
     name: string,
     price: number,
     description: string,
@@ -277,6 +248,7 @@ export type UpdateFoodPostMutation = {
     uploadedImageUrl: string,
     servings: number,
     updatedAt: string,
+    owner: string | null,
   } | null,
 };
 
@@ -288,6 +260,7 @@ export type DeleteFoodPostMutationVariables = {
 export type DeleteFoodPostMutation = {
   deleteFoodPost:  {
     __typename: "FoodPost",
+    id: string,
     name: string,
     price: number,
     description: string,
@@ -299,42 +272,67 @@ export type DeleteFoodPostMutation = {
     uploadedImageUrl: string,
     servings: number,
     updatedAt: string,
+    owner: string | null,
   } | null,
 };
 
-export type GetTodoQueryVariables = {
-  id: string,
+export type CreateUserMutationVariables = {
+  input: CreateUserInput,
+  condition?: ModelUserConditionInput | null,
 };
 
-export type GetTodoQuery = {
-  getTodo:  {
-    __typename: "Todo",
-    id: string,
-    name: string,
-    description: string | null,
+export type CreateUserMutation = {
+  createUser:  {
+    __typename: "User",
+    phoneNumber: string,
+    displayName: string,
+    firstName: string,
+    lastName: string,
+    aadharCardLink: string,
+    documentLink: string,
     createdAt: string,
     updatedAt: string,
+    owner: string | null,
   } | null,
 };
 
-export type ListTodosQueryVariables = {
-  filter?: ModelTodoFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
+export type UpdateUserMutationVariables = {
+  input: UpdateUserInput,
+  condition?: ModelUserConditionInput | null,
 };
 
-export type ListTodosQuery = {
-  listTodos:  {
-    __typename: "ModelTodoConnection",
-    items:  Array< {
-      __typename: "Todo",
-      id: string,
-      name: string,
-      description: string | null,
-      createdAt: string,
-      updatedAt: string,
-    } | null > | null,
-    nextToken: string | null,
+export type UpdateUserMutation = {
+  updateUser:  {
+    __typename: "User",
+    phoneNumber: string,
+    displayName: string,
+    firstName: string,
+    lastName: string,
+    aadharCardLink: string,
+    documentLink: string,
+    createdAt: string,
+    updatedAt: string,
+    owner: string | null,
+  } | null,
+};
+
+export type DeleteUserMutationVariables = {
+  input: DeleteUserInput,
+  condition?: ModelUserConditionInput | null,
+};
+
+export type DeleteUserMutation = {
+  deleteUser:  {
+    __typename: "User",
+    phoneNumber: string,
+    displayName: string,
+    firstName: string,
+    lastName: string,
+    aadharCardLink: string,
+    documentLink: string,
+    createdAt: string,
+    updatedAt: string,
+    owner: string | null,
   } | null,
 };
 
@@ -345,6 +343,7 @@ export type GetFoodPostQueryVariables = {
 export type GetFoodPostQuery = {
   getFoodPost:  {
     __typename: "FoodPost",
+    id: string,
     name: string,
     price: number,
     description: string,
@@ -356,6 +355,7 @@ export type GetFoodPostQuery = {
     uploadedImageUrl: string,
     servings: number,
     updatedAt: string,
+    owner: string | null,
   } | null,
 };
 
@@ -370,6 +370,7 @@ export type ListFoodPostsQuery = {
     __typename: "ModelFoodPostConnection",
     items:  Array< {
       __typename: "FoodPost",
+      id: string,
       name: string,
       price: number,
       description: string,
@@ -381,47 +382,64 @@ export type ListFoodPostsQuery = {
       uploadedImageUrl: string,
       servings: number,
       updatedAt: string,
+      owner: string | null,
     } | null > | null,
     nextToken: string | null,
   } | null,
 };
 
-export type OnCreateTodoSubscription = {
-  onCreateTodo:  {
-    __typename: "Todo",
-    id: string,
-    name: string,
-    description: string | null,
+export type GetUserQueryVariables = {
+  id: string,
+};
+
+export type GetUserQuery = {
+  getUser:  {
+    __typename: "User",
+    phoneNumber: string,
+    displayName: string,
+    firstName: string,
+    lastName: string,
+    aadharCardLink: string,
+    documentLink: string,
     createdAt: string,
     updatedAt: string,
+    owner: string | null,
   } | null,
 };
 
-export type OnUpdateTodoSubscription = {
-  onUpdateTodo:  {
-    __typename: "Todo",
-    id: string,
-    name: string,
-    description: string | null,
-    createdAt: string,
-    updatedAt: string,
+export type ListUsersQueryVariables = {
+  filter?: ModelUserFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListUsersQuery = {
+  listUsers:  {
+    __typename: "ModelUserConnection",
+    items:  Array< {
+      __typename: "User",
+      phoneNumber: string,
+      displayName: string,
+      firstName: string,
+      lastName: string,
+      aadharCardLink: string,
+      documentLink: string,
+      createdAt: string,
+      updatedAt: string,
+      owner: string | null,
+    } | null > | null,
+    nextToken: string | null,
   } | null,
 };
 
-export type OnDeleteTodoSubscription = {
-  onDeleteTodo:  {
-    __typename: "Todo",
-    id: string,
-    name: string,
-    description: string | null,
-    createdAt: string,
-    updatedAt: string,
-  } | null,
+export type OnCreateFoodPostSubscriptionVariables = {
+  owner: string,
 };
 
 export type OnCreateFoodPostSubscription = {
   onCreateFoodPost:  {
     __typename: "FoodPost",
+    id: string,
     name: string,
     price: number,
     description: string,
@@ -433,12 +451,18 @@ export type OnCreateFoodPostSubscription = {
     uploadedImageUrl: string,
     servings: number,
     updatedAt: string,
+    owner: string | null,
   } | null,
+};
+
+export type OnUpdateFoodPostSubscriptionVariables = {
+  owner: string,
 };
 
 export type OnUpdateFoodPostSubscription = {
   onUpdateFoodPost:  {
     __typename: "FoodPost",
+    id: string,
     name: string,
     price: number,
     description: string,
@@ -450,12 +474,18 @@ export type OnUpdateFoodPostSubscription = {
     uploadedImageUrl: string,
     servings: number,
     updatedAt: string,
+    owner: string | null,
   } | null,
+};
+
+export type OnDeleteFoodPostSubscriptionVariables = {
+  owner: string,
 };
 
 export type OnDeleteFoodPostSubscription = {
   onDeleteFoodPost:  {
     __typename: "FoodPost",
+    id: string,
     name: string,
     price: number,
     description: string,
@@ -467,5 +497,63 @@ export type OnDeleteFoodPostSubscription = {
     uploadedImageUrl: string,
     servings: number,
     updatedAt: string,
+    owner: string | null,
+  } | null,
+};
+
+export type OnCreateUserSubscriptionVariables = {
+  owner: string,
+};
+
+export type OnCreateUserSubscription = {
+  onCreateUser:  {
+    __typename: "User",
+    phoneNumber: string,
+    displayName: string,
+    firstName: string,
+    lastName: string,
+    aadharCardLink: string,
+    documentLink: string,
+    createdAt: string,
+    updatedAt: string,
+    owner: string | null,
+  } | null,
+};
+
+export type OnUpdateUserSubscriptionVariables = {
+  owner: string,
+};
+
+export type OnUpdateUserSubscription = {
+  onUpdateUser:  {
+    __typename: "User",
+    phoneNumber: string,
+    displayName: string,
+    firstName: string,
+    lastName: string,
+    aadharCardLink: string,
+    documentLink: string,
+    createdAt: string,
+    updatedAt: string,
+    owner: string | null,
+  } | null,
+};
+
+export type OnDeleteUserSubscriptionVariables = {
+  owner: string,
+};
+
+export type OnDeleteUserSubscription = {
+  onDeleteUser:  {
+    __typename: "User",
+    phoneNumber: string,
+    displayName: string,
+    firstName: string,
+    lastName: string,
+    aadharCardLink: string,
+    documentLink: string,
+    createdAt: string,
+    updatedAt: string,
+    owner: string | null,
   } | null,
 };

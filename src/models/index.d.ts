@@ -7,14 +7,6 @@ export enum FoodCategory {
 
 
 
-export declare class Todo {
-  readonly id: string;
-  readonly name: string;
-  readonly description?: string;
-  constructor(init: ModelInit<Todo>);
-  static copyOf(source: Todo, mutator: (draft: MutableModel<Todo>) => MutableModel<Todo> | void): Todo;
-}
-
 export declare class FoodPost {
   readonly id: string;
   readonly name: string;
@@ -29,4 +21,16 @@ export declare class FoodPost {
   readonly servings: number;
   constructor(init: ModelInit<FoodPost>);
   static copyOf(source: FoodPost, mutator: (draft: MutableModel<FoodPost>) => MutableModel<FoodPost> | void): FoodPost;
+}
+
+export declare class User {
+  readonly id: string;
+  readonly phoneNumber: string;
+  readonly displayName: string;
+  readonly firstName: string;
+  readonly lastName: string;
+  readonly aadharCardLink: string;
+  readonly documentLink: string;
+  constructor(init: ModelInit<User>);
+  static copyOf(source: User, mutator: (draft: MutableModel<User>) => MutableModel<User> | void): User;
 }

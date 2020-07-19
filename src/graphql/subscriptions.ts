@@ -2,42 +2,10 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const onCreateTodo = /* GraphQL */ `
-  subscription OnCreateTodo {
-    onCreateTodo {
-      id
-      name
-      description
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onUpdateTodo = /* GraphQL */ `
-  subscription OnUpdateTodo {
-    onUpdateTodo {
-      id
-      name
-      description
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onDeleteTodo = /* GraphQL */ `
-  subscription OnDeleteTodo {
-    onDeleteTodo {
-      id
-      name
-      description
-      createdAt
-      updatedAt
-    }
-  }
-`;
 export const onCreateFoodPost = /* GraphQL */ `
-  subscription OnCreateFoodPost {
-    onCreateFoodPost {
+  subscription OnCreateFoodPost($owner: String!) {
+    onCreateFoodPost(owner: $owner) {
+      id
       name
       price
       description
@@ -49,12 +17,14 @@ export const onCreateFoodPost = /* GraphQL */ `
       uploadedImageUrl
       servings
       updatedAt
+      owner
     }
   }
 `;
 export const onUpdateFoodPost = /* GraphQL */ `
-  subscription OnUpdateFoodPost {
-    onUpdateFoodPost {
+  subscription OnUpdateFoodPost($owner: String!) {
+    onUpdateFoodPost(owner: $owner) {
+      id
       name
       price
       description
@@ -66,12 +36,14 @@ export const onUpdateFoodPost = /* GraphQL */ `
       uploadedImageUrl
       servings
       updatedAt
+      owner
     }
   }
 `;
 export const onDeleteFoodPost = /* GraphQL */ `
-  subscription OnDeleteFoodPost {
-    onDeleteFoodPost {
+  subscription OnDeleteFoodPost($owner: String!) {
+    onDeleteFoodPost(owner: $owner) {
+      id
       name
       price
       description
@@ -83,6 +55,52 @@ export const onDeleteFoodPost = /* GraphQL */ `
       uploadedImageUrl
       servings
       updatedAt
+      owner
+    }
+  }
+`;
+export const onCreateUser = /* GraphQL */ `
+  subscription OnCreateUser($owner: String!) {
+    onCreateUser(owner: $owner) {
+      phoneNumber
+      displayName
+      firstName
+      lastName
+      aadharCardLink
+      documentLink
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onUpdateUser = /* GraphQL */ `
+  subscription OnUpdateUser($owner: String!) {
+    onUpdateUser(owner: $owner) {
+      phoneNumber
+      displayName
+      firstName
+      lastName
+      aadharCardLink
+      documentLink
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onDeleteUser = /* GraphQL */ `
+  subscription OnDeleteUser($owner: String!) {
+    onDeleteUser(owner: $owner) {
+      phoneNumber
+      displayName
+      firstName
+      lastName
+      aadharCardLink
+      documentLink
+      createdAt
+      updatedAt
+      owner
     }
   }
 `;
