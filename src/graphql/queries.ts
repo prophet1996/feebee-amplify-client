@@ -50,15 +50,16 @@ export const listFoodPosts = /* GraphQL */ `
 export const getUser = /* GraphQL */ `
   query GetUser($id: ID!) {
     getUser(id: $id) {
+      id
       phoneNumber
       displayName
       firstName
       lastName
       aadharCardLink
       documentLink
+      owner
       createdAt
       updatedAt
-      owner
     }
   }
 `;
@@ -70,15 +71,47 @@ export const listUsers = /* GraphQL */ `
   ) {
     listUsers(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
+        id
         phoneNumber
         displayName
         firstName
         lastName
         aadharCardLink
         documentLink
+        owner
         createdAt
         updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const userByOwner = /* GraphQL */ `
+  query UserByOwner(
+    $owner: ID
+    $sortDirection: ModelSortDirection
+    $filter: ModelUserFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    UserByOwner(
+      owner: $owner
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        phoneNumber
+        displayName
+        firstName
+        lastName
+        aadharCardLink
+        documentLink
         owner
+        createdAt
+        updatedAt
       }
       nextToken
     }

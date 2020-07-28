@@ -4,6 +4,7 @@ import { TextField } from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
+import { LABELS } from "../../src/utils/const";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -21,7 +22,7 @@ export default ({
   activeStep,
   totalSteps,
   stepContent,
-  formData={},
+  formData = {},
   handleNext,
   handleReset,
   handleBack,
@@ -34,11 +35,11 @@ export default ({
   handleReset: () => void;
   handleBack: () => void;
 }) => {
-  
   const classes = useStyles();
-  const { register, handleSubmit } = useForm();
-  const onSubmit = (data:any) => handleNext({ ...formData, 'personalInfo': data });
-  const initialValue = formData.personalInfo||{};
+  const { register, handleSubmit, errors } = useForm();
+  const onSubmit = (data: any) =>
+    handleNext({ ...formData, personalInfo: data });
+  const initialValue = formData.personalInfo || {};
   return (
     <>
       Personal Info
@@ -47,33 +48,40 @@ export default ({
           id="firstName"
           name="firstName"
           label="firstName"
+          error={errors.firstName}
           defaultValue={initialValue.firstName}
           variant="outlined"
-          inputRef={register()}
+          inputRef={register({ required: true })}
+          helperText={errors.firstName ? LABELS.fillThisField:null}
         />
 
         <TextField
           id="lastName"
           name="lastName"
           label="lastName"
+          error={errors.lastName}
           defaultValue={initialValue.lastName}
-          inputRef={register()}
+          inputRef={register({ required: true })}
           variant="outlined"
+          helperText={errors.lastName ? LABELS.fillThisField:null}
         />
 
         <TextField
           id="username"
           name="username"
-          inputRef={register()}
+          inputRef={register({ required: true })}
+          error={errors.username}
           defaultValue={initialValue.username}
           label="username"
           variant="outlined"
+          helperText={errors.username ? LABELS.fillThisField:null}
         />
         <TextField
           id="phoneNumber"
           name="phoneNumber"
           value="+919380556186"
           label="Phone Number"
+          error={errors.firstName}
           variant="outlined"
           disabled
         />

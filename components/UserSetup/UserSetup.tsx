@@ -6,8 +6,9 @@ import Step from "@material-ui/core/Step";
 import StepLabel from "@material-ui/core/StepLabel";
 import { PersonalInfo, OnboardingSummary, Preferences } from "..";
 import {User as UserModel} from '../../src/models';
+import {listUsers} from '../../src/graphql/queries';
 import KYC from "../KYC";
-import { DataStore } from 'aws-amplify';
+import { DataStore,API, graphqlOperation  } from 'aws-amplify';
 
 const useStyles = makeStyles({
   root: {
@@ -49,11 +50,14 @@ export default () => {
         new UserModel(formData)
       );
       console.log("Post saved successfully!");
+      const a = await API.graphql(graphqlOperation(listUsers))
+      console.log('bruh',a)
+
     } catch (error) {
       console.log("Error saving post", error);
     }
     //Actual kekw moment just reload lol
-    window.location.reload();
+    // window.location.reload();
   };
 
   const handleFinish = (newFormData: any) => {
@@ -125,8 +129,6 @@ export default () => {
         {steps.map(({ label, component }) => (
           <Step key={label}>
             <StepLabel>{label}</StepLabel>
-            {/* WTF is this if i remove this the ocmponenet crashes */}
-            <div style={{ display: "none" }}>{component}</div>
           </Step>
         ))}
       </Stepper>

@@ -9,11 +9,16 @@
             "UnauthRoleName": "amplify-feebeeamplifyclient-dev-130511-unauthRole",
             "StackName": "amplify-feebeeamplifyclient-dev-130511",
             "StackId": "arn:aws:cloudformation:ap-southeast-1:506170556505:stack/amplify-feebeeamplifyclient-dev-130511/47efeff0-c8c9-11ea-892e-0a43e1cd1fda",
-            "AmplifyAppId": "d1mjqv816454so"
+            "AmplifyAppId": "dm60ewumdok9n"
         },
         "categories": {
             "auth": {
                 "feebeeAuth": {}
+            },
+            "function": {
+                "feebeeAuthPostConfirmation": {
+                    "GROUP": "everyone"
+                }
             }
         }
     }

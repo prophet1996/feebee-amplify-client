@@ -22,12 +22,18 @@ enum FoodCategory {
 
 
 
-type User @model @auth(rules: [{ allow: owner }]) {
-  id:ID!
-  phoneNumber: String!
-  displayName: String!
-  firstName: String!
-  lastName: String!
-  aadharCardLink:String!
-  documentLink: String!
+type User 
+  @model
+  @aws_iam
+  @aws_cognito_user_pools
+  @key(name:"UserByOwner", fields: ["owner"], queryField: "UserByOwner")
+   @auth(rules: [{ allow: owner,operations: [create,update, read] }]) {
+    id:ID!
+    phoneNumber: String!
+    displayName: String!
+    firstName: String!
+    lastName: String!
+    aadharCardLink:String!
+    documentLink: String!
+    owner:ID!
 }

@@ -22,12 +22,14 @@
         "phone_number"
     ],
     "userpoolClientGenerateSecret": true,
-    "userpoolClientRefreshTokenValidity": "7",
+    "userpoolClientRefreshTokenValidity": "30",
     "userpoolClientWriteAttributes": [
-        "email","address"
+        "email",
+        "address"
     ],
     "userpoolClientReadAttributes": [
-        "email","address"
+        "email",
+        "address"
     ],
     "userpoolClientLambdaRole": "feebeeb1f37076_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
@@ -38,9 +40,9 @@
     "usernameAttributes": [
         "phone_number"
     ],
-    "userPoolGroups": true,
+    "userPoolGroups": false,
     "adminQueries": false,
-    "triggers": "{}",
+    "triggers": "{\"PostConfirmation\":[\"add-to-group\"]}",
     "hostedUI": false,
     "userPoolGroupList": [
         "feebeeAuthUserPoolGroup"
@@ -60,6 +62,18 @@
     "parentStack": {
         "Ref": "AWS::StackId"
     },
-    "permissions": [],
-    "dependsOn": []
+    "permissions": [
+        "{\"policyName\":\"AddToGroupCognito\",\"trigger\":\"PostConfirmation\",\"effect\":\"Allow\",\"actions\":[\"cognito-idp:AdminAddUserToGroup\",\"cognito-idp:GetGroup\",\"cognito-idp:CreateGroup\"],\"resource\":{\"paramType\":\"!GetAtt\",\"keys\":[\"UserPool\",\"Arn\"]}}"
+    ],
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "feebeeAuthPostConfirmation",
+            "triggerProvider": "Cognito",
+            "attributes": [
+                "Arn",
+                "Name"
+            ]
+        }
+    ]
 }

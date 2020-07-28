@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import CloseIcon from "@material-ui/icons/Close";
 // import { getUserAccount } from "../../utils/service/firestore";
 import {
@@ -22,6 +22,7 @@ import { AddFood } from "..";
 import Alert from "@material-ui/lab/Alert";
 import Snackbar from "@material-ui/core/Snackbar";
 import { CODE } from "../../src/utils/const";
+import UserContext from '../../src/context/UserProvider';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -66,22 +67,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 const Account = () => {
-  const [account, setAccount]: any = useState(null);
   const [openAddFood, setOpenAddFood] = useState(false);
   const [addFoodCloseStatusResponse, setAddFoodCloseStatusResponse] = useState(
     CODE.NO_INFO
   );
+  const user = useContext(UserContext);
   const router = useRouter();
   const classes = useStyles();
-  const _getAccount = async () => {
-    //TODO: implement this
-    // const account = (await getUserAccount()).data();
-    const account = {}
-    setAccount(account);
-  };
-  useEffect(() => {
-    if (!account) _getAccount();
-  }, []);
+ 
 
   const handleAddFood = () => {
     setOpenAddFood((prevVal) => !prevVal);
@@ -116,7 +109,7 @@ const Account = () => {
             <AccountBoxIcon />
           </Avatar>
           <Typography variant="h5" className={classes.displayName}>
-            {account?.data?.personalInfo?.displayName}
+            {user?.displayName}
           </Typography>
         </div>
         <div className={classes.secondaryInfo}></div>

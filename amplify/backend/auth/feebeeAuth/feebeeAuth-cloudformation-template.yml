@@ -9,6 +9,18 @@ Parameters:
     Type: String
   
   
+  
+  
+  functionfeebeeAuthPostConfirmationArn: 
+    Type: String
+    Default: functionfeebeeAuthPostConfirmationArn
+  
+  functionfeebeeAuthPostConfirmationName: 
+    Type: String
+    Default: functionfeebeeAuthPostConfirmationName
+  
+  
+  
 
     
   identityPoolName:
@@ -103,7 +115,7 @@ Parameters:
                     
   userPoolGroupList:
     Type: CommaDelimitedList
-                                                
+                                    
   parentStack:
     Type: String
                 
@@ -112,7 +124,7 @@ Parameters:
               
   dependsOn:
     Type: CommaDelimitedList
-    
+                
 Conditions:
   ShouldNotCreateEnvResources: !Equals [ !Ref env, NONE ]
 
@@ -171,6 +183,19 @@ Resources:
         
       
       
+      LambdaConfig:
+        
+        
+        
+        
+        
+          PostConfirmation: !Ref functionfeebeeAuthPostConfirmationArn
+        
+        
+        
+        
+        
+      
       
       AutoVerifiedAttributes: !Ref autoVerifiedAttributes
       
@@ -198,12 +223,53 @@ Resources:
     
   
     
+  
+  UserPoolPostConfirmationLambdaInvokePermission: 
+    Type: "AWS::Lambda::Permission"
+    DependsOn: UserPool
+    Properties: 
+      Action: "lambda:invokeFunction"
+      Principal: "cognito-idp.amazonaws.com"
+      FunctionName: !Ref functionfeebeeAuthPostConfirmationName
+      SourceArn: !GetAtt UserPool.Arn
     
   
   
    
     
   # Updating lambda role with permissions to Cognito
+  
+  
+  feebeeAuthPostConfirmationAddToGroupCognito:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: feebeeAuthPostConfirmationAddToGroupCognito
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Action:
+            
+              - cognito-idp:AdminAddUserToGroup
+            
+              - cognito-idp:GetGroup
+            
+              - cognito-idp:CreateGroup
+            
+            
+            
+            Resource: !GetAtt
+            
+              - UserPool
+            
+              - Arn
+            
+            
+            
+
+      Roles:
+        - !Join ['',["feebeeAuthPostConfirmation", '-', !Ref env]]
+  
   
   
   UserPoolClientWeb:

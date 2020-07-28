@@ -126,12 +126,14 @@ export type DeleteFoodPostInput = {
 };
 
 export type CreateUserInput = {
+  id?: string | null,
   phoneNumber: string,
   displayName: string,
   firstName: string,
   lastName: string,
   aadharCardLink: string,
   documentLink: string,
+  owner: string,
 };
 
 export type ModelUserConditionInput = {
@@ -147,12 +149,14 @@ export type ModelUserConditionInput = {
 };
 
 export type UpdateUserInput = {
+  id: string,
   phoneNumber?: string | null,
   displayName?: string | null,
   firstName?: string | null,
   lastName?: string | null,
   aadharCardLink?: string | null,
   documentLink?: string | null,
+  owner?: string | null,
 };
 
 export type DeleteUserInput = {
@@ -193,16 +197,24 @@ export type ModelIDInput = {
 };
 
 export type ModelUserFilterInput = {
+  id?: ModelIDInput | null,
   phoneNumber?: ModelStringInput | null,
   displayName?: ModelStringInput | null,
   firstName?: ModelStringInput | null,
   lastName?: ModelStringInput | null,
   aadharCardLink?: ModelStringInput | null,
   documentLink?: ModelStringInput | null,
+  owner?: ModelIDInput | null,
   and?: Array< ModelUserFilterInput | null > | null,
   or?: Array< ModelUserFilterInput | null > | null,
   not?: ModelUserFilterInput | null,
 };
+
+export enum ModelSortDirection {
+  ASC = "ASC",
+  DESC = "DESC",
+}
+
 
 export type CreateFoodPostMutationVariables = {
   input: CreateFoodPostInput,
@@ -284,15 +296,16 @@ export type CreateUserMutationVariables = {
 export type CreateUserMutation = {
   createUser:  {
     __typename: "User",
+    id: string,
     phoneNumber: string,
     displayName: string,
     firstName: string,
     lastName: string,
     aadharCardLink: string,
     documentLink: string,
+    owner: string,
     createdAt: string,
     updatedAt: string,
-    owner: string | null,
   } | null,
 };
 
@@ -304,15 +317,16 @@ export type UpdateUserMutationVariables = {
 export type UpdateUserMutation = {
   updateUser:  {
     __typename: "User",
+    id: string,
     phoneNumber: string,
     displayName: string,
     firstName: string,
     lastName: string,
     aadharCardLink: string,
     documentLink: string,
+    owner: string,
     createdAt: string,
     updatedAt: string,
-    owner: string | null,
   } | null,
 };
 
@@ -324,15 +338,16 @@ export type DeleteUserMutationVariables = {
 export type DeleteUserMutation = {
   deleteUser:  {
     __typename: "User",
+    id: string,
     phoneNumber: string,
     displayName: string,
     firstName: string,
     lastName: string,
     aadharCardLink: string,
     documentLink: string,
+    owner: string,
     createdAt: string,
     updatedAt: string,
-    owner: string | null,
   } | null,
 };
 
@@ -395,15 +410,16 @@ export type GetUserQueryVariables = {
 export type GetUserQuery = {
   getUser:  {
     __typename: "User",
+    id: string,
     phoneNumber: string,
     displayName: string,
     firstName: string,
     lastName: string,
     aadharCardLink: string,
     documentLink: string,
+    owner: string,
     createdAt: string,
     updatedAt: string,
-    owner: string | null,
   } | null,
 };
 
@@ -418,15 +434,44 @@ export type ListUsersQuery = {
     __typename: "ModelUserConnection",
     items:  Array< {
       __typename: "User",
+      id: string,
       phoneNumber: string,
       displayName: string,
       firstName: string,
       lastName: string,
       aadharCardLink: string,
       documentLink: string,
+      owner: string,
       createdAt: string,
       updatedAt: string,
-      owner: string | null,
+    } | null > | null,
+    nextToken: string | null,
+  } | null,
+};
+
+export type UserByOwnerQueryVariables = {
+  owner?: string | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelUserFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type UserByOwnerQuery = {
+  UserByOwner:  {
+    __typename: "ModelUserConnection",
+    items:  Array< {
+      __typename: "User",
+      id: string,
+      phoneNumber: string,
+      displayName: string,
+      firstName: string,
+      lastName: string,
+      aadharCardLink: string,
+      documentLink: string,
+      owner: string,
+      createdAt: string,
+      updatedAt: string,
     } | null > | null,
     nextToken: string | null,
   } | null,
@@ -508,15 +553,16 @@ export type OnCreateUserSubscriptionVariables = {
 export type OnCreateUserSubscription = {
   onCreateUser:  {
     __typename: "User",
+    id: string,
     phoneNumber: string,
     displayName: string,
     firstName: string,
     lastName: string,
     aadharCardLink: string,
     documentLink: string,
+    owner: string,
     createdAt: string,
     updatedAt: string,
-    owner: string | null,
   } | null,
 };
 
@@ -527,15 +573,16 @@ export type OnUpdateUserSubscriptionVariables = {
 export type OnUpdateUserSubscription = {
   onUpdateUser:  {
     __typename: "User",
+    id: string,
     phoneNumber: string,
     displayName: string,
     firstName: string,
     lastName: string,
     aadharCardLink: string,
     documentLink: string,
+    owner: string,
     createdAt: string,
     updatedAt: string,
-    owner: string | null,
   } | null,
 };
 
@@ -546,14 +593,15 @@ export type OnDeleteUserSubscriptionVariables = {
 export type OnDeleteUserSubscription = {
   onDeleteUser:  {
     __typename: "User",
+    id: string,
     phoneNumber: string,
     displayName: string,
     firstName: string,
     lastName: string,
     aadharCardLink: string,
     documentLink: string,
+    owner: string,
     createdAt: string,
     updatedAt: string,
-    owner: string | null,
   } | null,
 };

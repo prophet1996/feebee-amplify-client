@@ -4,34 +4,16 @@ import {
   FoodList,
   BottomNavigation,
   Account,
-  UserSetup,
   Cart,
 } from "..";
 import { useCart } from "../../src/utils/context/CartContext";
-import { DataStore } from 'aws-amplify';
-import { User } from '../../src/utils/types';
 import {User as UserModel} from '../../src/models';
-import useUser from '../../src/hooks/useUser';
 
 const Home = () => {
   const [value, setValue] = useState(0);
   const [user,setUser] = useState<User|null>();
   const cart = useCart();
 
-  const _getUser = async()=>{
-    try {
-      const user = await DataStore.query(UserModel);
-      // setUser(user);
-      console.log("user retrieved successfully!", JSON.stringify(user, null, 2));
-    } catch (error) {
-      console.log("Error retrieving posts", error);
-    }
-  }
-  //fetch account data
-  useEffect(()=>{
-  if(!user) _getUser();
-  },[]);
-  if (user?.displayName) return <UserSetup />;
 
   const handleClickViewCart = useCallback(() => {
     cart.toggleCart();

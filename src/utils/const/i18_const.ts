@@ -12,6 +12,7 @@ const labels = {
     error: "error",
     loading: "loading",
     //instructional labels
+    fillThisField:"Please fill this field",
     toChangeDelivery:
       "To change delivery location please change your address in your profile",
     //symbols

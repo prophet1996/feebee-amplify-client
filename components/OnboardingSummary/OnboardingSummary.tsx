@@ -24,7 +24,6 @@ export default ({
   handleSaveOnBoarding: () => void;
   handleBack: () => void;
 }) => {
-  console.log(formData);
   const classes = useStyles();
   return (
     <>

@@ -1,5 +1,5 @@
 projects:
-  feebeeamplifyclient:
+  feebeeamplifyclient-dev:
     schemaPath: src/graphql/schema.json
     includes:
       - src/graphql/**/*.ts
@@ -10,6 +10,9 @@ projects:
         codeGenTarget: typescript
         generatedFileName: api.ts
         docsFilePath: src/graphql
+        region: ap-southeast-1
+        apiId: z7v7vcoczrhdlioa53a6fxygje
+        maxDepth: 2
 extensions:
   amplify:
     version: 3
