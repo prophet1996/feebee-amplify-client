@@ -13,12 +13,12 @@ import {
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { TransitionProps } from "@material-ui/core/transitions";
 import Slide from "@material-ui/core/Slide";
-import { FoodPostDocument } from "../../src/utils/types";
+import { FoodPost as FoodPostType } from "../../src/utils/types";
 import { LABELS } from "../../src/utils/const";
-// import { getUserAccount } from "../../utils/service/firestore";
 import CustomSlider from "../CustomSlider";
 import { useCart } from "../../src/utils/context/CartContext";
 import CartRibbon from "../CartRibbon";
+import useUser from "../../src/hooks/useUser";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     primsecAction: {
       //Might cause problem
-      marginTop:"auto",
+      marginTop: "auto",
       display: "flex",
       flexDirection: "row",
       ["& > button:nth-child(1)"]: {
@@ -73,49 +73,36 @@ const OrderScreen = ({
   post,
   onClose,
 }: {
-  post: FoodPostDocument | undefined;
+  post: FoodPostType;
   onClose: () => void;
 }) => {
   //Optimise render for cart changes
   const cart = useCart();
   const classes = useStyles();
-  const [account, setAccount]: any = useState();
-  const maxServings = post?.foodPost.servings || 1;
-  const [orderServings, setOrderServings] = useState(1);
-  const _getAccount = async () => {
-    //TODO: implement this
-    // const account = (await getUserAccount()).data();
-    const account={};
-    setAccount(account);
-  };
+  const user = useUser();
 
-  useEffect(() => {
-    if (!account) _getAccount();
-  }, []);
+  const maxServings = post?.servings || 1;
+  const [orderServings, setOrderServings] = useState(1);
 
   const handleSliderChange = useCallback((value: number) => {
     if (value > 0 && value <= maxServings) setOrderServings(value);
   }, []);
+
+  const { name, price } = post;
   return (
     <Dialog
       open={!!post}
       onClose={onClose}
       className={classes.orderScreen}
-      id="bruh"
       TransitionComponent={Transition}
     >
       <AppBar className={classes.appBar}>
         <Typography variant="caption">{LABELS.toBeDeliveredAt}</Typography>
-        <Typography variant="caption">
-          {account?.data?.personalInfo?.address}
-        </Typography>
+        <Typography variant="caption">{user?.personalInfo?.address}</Typography>
       </AppBar>
       <List>
         <ListItem className={classes.orderPrimaryListItem}>
-          <ListItemText
-            primary={post?.foodPost.name}
-            secondary={`₹ ${post?.foodPost.price}`}
-          />
+          <ListItemText primary={name} secondary={`₹ ${price}`} />
           <CustomSlider
             name="orderServings"
             value={orderServings}

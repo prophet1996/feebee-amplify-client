@@ -1,11 +1,12 @@
 import List from "@material-ui/core/List";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
-import React, { useState,  useCallback } from "react";
-// import { getFoodPosts } from "../../utils/service/firestore";
+import React, { useState, useEffect, useCallback } from "react";
 import FoodListItem from "../FoodListItem";
 import { FoodPostDocument } from "../../src/utils/types";
 import FoodPostDetail from "../FoodPostDetail";
 import { OrderScreen } from "..";
+import { getFoodPosts } from "../../src/utils/services";
+import { FoodPost as FoodPostType } from '../../src/utils/types';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -19,21 +20,18 @@ const useStyles = makeStyles((theme: Theme) =>
 const FoodList = () => {
   const classes = useStyles();
 
-  const [posts, setPosts] = useState<FoodPostDocument[]>([]);
+  const [posts, setPosts] = useState<FoodPostType[]>([]);
   const [openPostId, setOpenPostId] = useState<string | null>(null);
   const [orderPostId, setOrderPostId] = useState<string | null>(null);
-  //TODO: implement this
-  // const _getFoodPosts = async () => {
-  //   (await getFoodPosts()).forEach((querySnapShot) =>
-  //     setPosts((prevPosts) => [
-  //       ...prevPosts,
-  //       { ...querySnapShot.data(), id: querySnapShot.id } as FoodPostDocument,
-  //     ])
-  //   );
-  // };
-  // useEffect(() => {
-  //   // if (posts.length === 0) _getFoodPosts();
-  // }, []);
+
+  const _getFoodPosts = async () => {
+const p = await getFoodPosts();
+    setPosts(p);
+    console.log(p)
+  };
+  useEffect(() => {
+    if (posts.length === 0) _getFoodPosts();
+  }, []);
 
   const handlePostClick = useCallback((currentPostId: string) => {
     setOpenPostId(currentPostId);
@@ -54,10 +52,10 @@ const FoodList = () => {
   const selectedOpenPost = posts.find((post) => post.id === openPostId);
   return (
     <List className={classes.root}>
-      {posts.map((post: FoodPostDocument) => (
+      {posts.map((post: FoodPostType) => (
         <FoodListItem
-          key={post.foodPost.createdAt?.toDateString()}
-          foodPostItemDocument={post}
+          key={post.createdAt?.toDateString()}
+          foodPost={post}
           onClick={handlePostClick}
           onClickGetIt={handleClickGetIt}
         />

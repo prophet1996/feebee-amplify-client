@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, {  useState, useContext } from "react";
 import CloseIcon from "@material-ui/icons/Close";
 // import { getUserAccount } from "../../utils/service/firestore";
 import {
@@ -76,6 +76,8 @@ const Account = () => {
   const classes = useStyles();
  
 
+    const {displayName="",owner=""} = user;
+
   const handleAddFood = () => {
     setOpenAddFood((prevVal) => !prevVal);
     router.push("/?addFood=true", undefined, { shallow: true });
@@ -88,7 +90,6 @@ const Account = () => {
     if (reason === "clickaway") {
       return;
     }
-
     setAddFoodCloseStatusResponse(CODE.NO_INFO);
   };
   return (
@@ -157,7 +158,7 @@ const Account = () => {
               </IconButton>
             </Toolbar>
           </AppBar>
-          <AddFood onCloseAddFood={handleAddFoodClose}></AddFood>
+          <AddFood onCloseAddFood={handleAddFoodClose} displayName={displayName} ></AddFood>
         </div>
       </Drawer>
     </>

@@ -17,6 +17,7 @@ import Slide from "@material-ui/core/Slide";
 import { FoodPostDocument } from "../../src/utils/types";
 // import { getDownloadUrl } from "../../utils/service/firestore";
 import Chip from "@material-ui/core/Chip";
+import { FoodPost as FoodPostType } from "../../src/utils/types";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -55,22 +56,31 @@ const FoodPostDetail = ({
   post,
   onClose,
   onClickGetIt,
-}: { 
-  post: FoodPostDocument | undefined;
+}: {
+  post: FoodPostType;
   onClose: () => void;
-  onClickGetIt: (id: string|undefined) => void;
+  onClickGetIt: (id: string | undefined) => void;
 }) => {
   const classes = useStyles();
   const [postImage, setPostImage] = useState(null);
   const _getPostImage = async () => {
     //TODO: implement this
-    // setPostImage(await getDownloadUrl(post?.foodPost.uploadedImageUrl));
-    setPostImage('TODO: implement this')
+    // setPostImage(await getDownloadUrl(uploadedImageUrl));
+    setPostImage("TODO: implement this");
     return;
   };
   useEffect(() => {
     if (!postImage) _getPostImage();
   }, []);
+  const {
+    name = "",
+    cuisineTags = [],
+    cookingDate,
+    cookingTime,
+    description,
+    servings,
+    category
+  } = post;
 
   return (
     <Dialog
@@ -90,9 +100,9 @@ const FoodPostDetail = ({
             <ArrowBack />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            {post?.foodPost.name}
+            {name}
           </Typography>
-          {post?.foodPost.cuisineTags.map((cTag) => (
+          {cuisineTags.map((cTag) => (
             <Chip label={cTag} variant="outlined" />
           ))}
         </Toolbar>
@@ -113,15 +123,15 @@ const FoodPostDetail = ({
             variant="h5"
             className={classes.orderLink}
           >
-            Get it by {post?.foodPost.cookingDate}, {post?.foodPost.cookingTime}
+            Get it by {cookingDate}, {cookingTime}
           </Typography>
-          <Chip label={post?.foodPost.category} variant="outlined" />
+          <Chip label={category} variant="outlined" />
         </ListItem>
         <ListItem>
-          <ListItemText primary={`${post?.foodPost.description}`} />
+          <ListItemText primary={`${description}`} />
         </ListItem>
         <ListItem>
-          <ListItemText primary={`Servings left: ${post?.foodPost.servings}`} />
+          <ListItemText primary={`Servings left: ${servings}`} />
         </ListItem>
       </List>
     </Dialog>

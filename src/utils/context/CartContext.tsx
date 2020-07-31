@@ -35,9 +35,8 @@ const CartProvider = ({ children }: { children: any }) => {
     setCartState({
       ...cartState,
       items: [...cartState.items, item],
-      totalCartAmount: cartState.totalCartAmount + Number(item.foodPost.price),
+      totalCartAmount: cartState.totalCartAmount + Number(item.price),
     });
-    console.log("bruh", cartState);
   };
   const removeItem = (_: string) => {};
   const updateCart = (updatedCart: CartState | undefined) => {

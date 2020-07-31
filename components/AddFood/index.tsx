@@ -28,6 +28,7 @@ import { foodCategory, FoodCategory,CustomFile } from "../../src/utils/types";
 import DateFnsUtils from "@date-io/date-fns";
 //Retrun code from successful post submission
 import { CODE } from "../../src/utils/const";
+import { addFoodPost } from '../../src/utils/services';
 
 const useStyles = makeStyles((_: Theme) =>
   createStyles({
@@ -48,8 +49,12 @@ const useStyles = makeStyles((_: Theme) =>
 
 const AddFood = ({
   onCloseAddFood,
+  displayName,
+  userId
 }: {
   onCloseAddFood: (statusCode: CODE) => void;
+  displayName:string;
+  userId:string;
 }) => {
   const { register, handleSubmit } = useForm();
   //use this save in the food post
@@ -58,14 +63,14 @@ const AddFood = ({
   CustomFile | null
   >(null);
   const onDrop = useCallback(async (acceptedFiles) => {
-    uploadPostImage(acceptedFiles[0], uuidv4()).then((upload) => {
-      setPreviewImage({
-        ...acceptedFiles[0],
-        preview: URL.createObjectURL(acceptedFiles[0]),
-      });
-      console.log("acc", acceptedFiles[0]);
-      setuploadedImageUrl(upload.metadata.fullPath);
-    });
+    // uploadPostImage(acceptedFiles[0], uuidv4()).then((upload) => {
+    //   setPreviewImage({
+    //     ...acceptedFiles[0],
+    //     preview: URL.createObjectURL(acceptedFiles[0]),
+    //   });
+    //   console.log("acc", acceptedFiles[0]);
+    // setuploadedImageUrl(upload.metadata.fullPath);
+    // });
   }, []);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
@@ -115,17 +120,21 @@ const AddFood = ({
 
   const onSubmit = (data: any) => {
     //TODO: implement/fix this
-    // addFoodPost({
-    //   ...data,
-    //   cuisineTags: Array.from(currentSelectedCuisines),
-    //   uploadedImageUrl,
-    // })
-    //   .then(() => {
-    //     onCloseAddFood(CODE.SUCCESS);
-    //   })
-    //   .catch((err) => {
-    //     throw new Error(err);
-    //   });
+    addFoodPost({
+      ...data,
+      price:Number(data.price),
+      servings:Number(data.servings),
+      //TODO: implement/fix this
+      uploadedImageUrl:"uploadedImageUrl",
+      cuisineTags: Array.from(currentSelectedCuisines),
+      createdBy:displayName,
+    },() => {
+      onCloseAddFood(CODE.SUCCESS);
+    },(err) => {
+      console.log(err);
+    })
+     
+    
   };
   return (
     <>
@@ -156,6 +165,7 @@ const AddFood = ({
           id="price"
           name="price"
           label="Price"
+          type="number"
           inputRef={register()}
           variant="outlined"
         />
@@ -208,9 +218,9 @@ const AddFood = ({
           value={foodTypeRadioValue}
           onChange={() => {
             return setFoodTypeRadioValue((prevVal: any) =>
-              prevVal === foodCategory["NON-VEG"]
+              prevVal === foodCategory["NONVEG"]
                 ? (foodCategory.VEG as any)
-                : (foodCategory["NON-VEG"] as any)
+                : (foodCategory["NONVEG"] as any)
             );
           }}
         >
@@ -220,9 +230,9 @@ const AddFood = ({
             label={foodCategory.VEG}
           />
           <FormControlLabel
-            value={foodCategory["NON-VEG"]}
+            value={foodCategory["NONVEG"]}
             control={<Radio inputRef={register()} />}
-            label={foodCategory["NON-VEG"]}
+            label={foodCategory["NONVEG"]}
           />
         </RadioGroup>{" "}
         <Autocomplete
@@ -245,7 +255,7 @@ const AddFood = ({
             });
           }}
           getOptionLabel={(option) => option}
-          options={cuisineOptions}
+          options={['Cuisine option']}
           loading={loading}
           renderInput={(params) => (
             <TextField

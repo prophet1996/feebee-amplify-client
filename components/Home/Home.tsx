@@ -11,7 +11,6 @@ import {User as UserModel} from '../../src/models';
 
 const Home = () => {
   const [value, setValue] = useState(0);
-  const [user,setUser] = useState<User|null>();
   const cart = useCart();
 
 

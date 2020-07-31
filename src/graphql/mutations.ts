@@ -16,11 +16,12 @@ export const createFoodPost = /* GraphQL */ `
       cuisineTags
       cookingTime
       cookingDate
-      createdAt
       uploadedImageUrl
       servings
-      updatedAt
       owner
+      createdBy
+      createdAt
+      updatedAt
     }
   }
 `;
@@ -38,11 +39,12 @@ export const updateFoodPost = /* GraphQL */ `
       cuisineTags
       cookingTime
       cookingDate
-      createdAt
       uploadedImageUrl
       servings
-      updatedAt
       owner
+      createdBy
+      createdAt
+      updatedAt
     }
   }
 `;
@@ -60,11 +62,12 @@ export const deleteFoodPost = /* GraphQL */ `
       cuisineTags
       cookingTime
       cookingDate
-      createdAt
       uploadedImageUrl
       servings
-      updatedAt
       owner
+      createdBy
+      createdAt
+      updatedAt
     }
   }
 `;

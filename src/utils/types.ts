@@ -22,10 +22,10 @@ export interface User extends PersonalInfo, preferences, KYC {
 
 export const foodCategory = {
   VEG: "VEG",
-  "NON-VEG": "NON-VEG",
+  "NONVEG": "NONVEG",
 };
 
-export type FoodCategory = "VEG" | "NON-VEG";
+export type FoodCategory = "VEG" | "NONVEG";
 
 export interface FoodPost {
   name: string;
@@ -33,11 +33,11 @@ export interface FoodPost {
   description: string;
   category: FoodCategory;
   cuisineTags: string[];
-  cookingTime: Date;
-  cookingDate: Date;
-  createdAt: Date; //unix timestamp
+  cookingTime: string;
+  cookingDate: string;
   uploadedImageUrl: string;
   servings: number;
+  createdBy: string;
 }
 
 export interface FoodPostDocument {
@@ -70,3 +70,5 @@ export interface CartContextType {
   updateCart: (_: CartState | undefined) => void;
   totalCartAmount: number;
 }
+
+export type FnType =()=>void;

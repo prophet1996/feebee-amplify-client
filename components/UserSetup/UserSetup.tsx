@@ -54,7 +54,7 @@ export default () => {
       console.log('bruh',a)
 
     } catch (error) {
-      console.log("Error saving post", error);
+      console.log("Error saving user data", error);
     }
     //Actual kekw moment just reload lol
     // window.location.reload();
@@ -126,7 +126,7 @@ export default () => {
       </div>
 
       <Stepper activeStep={activeStep} alternativeLabel>
-        {steps.map(({ label, component }) => (
+        {steps.map(({ label }) => (
           <Step key={label}>
             <StepLabel>{label}</StepLabel>
           </Step>

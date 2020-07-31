@@ -8,7 +8,8 @@ const defaultUserValue: User = {
   lastName: "",
   aadharCardLink: "",
   documentLink: "",
+  owner:"",
 };
-const UserContext = createContext<User|null>(defaultUserValue);
+const UserContext = createContext<User>(defaultUserValue);
 
 export default UserContext;

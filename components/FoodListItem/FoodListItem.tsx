@@ -10,7 +10,7 @@ import {
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import React from "react";
 import { LABELS } from "../../src/utils/const";
-import { FoodPostDocument } from "../../src/utils/types";
+import { FoodPost as FoodPostType } from '../../src/utils/types';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -41,16 +41,16 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const FoodListItem = ({
-  foodPostItemDocument,
+  foodPost,
   onClick,
   onClickGetIt,
 }: {
-  foodPostItemDocument: FoodPostDocument;
+  foodPost: FoodPostType;
   onClick: (postId: string) => void;
   onClickGetIt: (postId: string) => void;
 }) => {
   const classes = useStyles();
-  const { foodPost, createdBy, id } = foodPostItemDocument;
+  const { name, createdBy, cookingTime,id ,price,cookingDate,description} = foodPost;
   return (
     <>
       <ListItem alignItems="flex-start">
@@ -58,13 +58,13 @@ const FoodListItem = ({
           <Avatar
             variant="rounded"
             className={classes.avatar}
-            alt={foodPost.name}
+            alt={name}
             src="/static/images/avatar/1.jpg"
           />
         </ListItemAvatar>
         <ListItemText
           onClick={() => onClick(id)}
-          primary={foodPost.name}
+          primary={name}
           className={classes.listItem}
           secondary={
             <>
@@ -84,7 +84,7 @@ const FoodListItem = ({
                 variant="body2"
                 color="textPrimary"
               >
-                {foodPost.description}
+                {description}
               </Typography>
               <Typography
                 onClick={(e: any) => {
@@ -96,12 +96,12 @@ const FoodListItem = ({
                 variant="body2"
                 className={classes.orderLink}
               >
-                Get it by {foodPost.cookingTime}, {foodPost.cookingDate}
+                Get it by {cookingTime}, {cookingDate}
               </Typography>
             </>
           }
         />{" "}
-        <Chip label={`₹ ${foodPost.price}`} className={classes.money} variant="outlined" />
+        <Chip label={`₹ ${price}`} className={classes.money} variant="outlined" />
       </ListItem>
       <Divider variant="inset" component="li" />
     </>

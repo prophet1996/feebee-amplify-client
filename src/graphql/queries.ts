@@ -13,11 +13,12 @@ export const getFoodPost = /* GraphQL */ `
       cuisineTags
       cookingTime
       cookingDate
-      createdAt
       uploadedImageUrl
       servings
-      updatedAt
       owner
+      createdBy
+      createdAt
+      updatedAt
     }
   }
 `;
@@ -37,11 +38,12 @@ export const listFoodPosts = /* GraphQL */ `
         cuisineTags
         cookingTime
         cookingDate
-        createdAt
         uploadedImageUrl
         servings
-        updatedAt
         owner
+        createdBy
+        createdAt
+        updatedAt
       }
       nextToken
     }

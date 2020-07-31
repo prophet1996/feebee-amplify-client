@@ -1,39 +1,39 @@
-
-
 enum FoodCategory {
   NONVEG
-  VEG 
+  VEG
 }
 
-
- type FoodPost @model @auth(rules: [{ allow: owner }]) {
-  id:ID!
+type FoodPost
+  @model
+  @aws_iam
+  @aws_cognito_user_pools
+  @auth(rules: [{ allow: owner }]) {
+  id: ID!
   name: String!
   price: Float!
   description: String!
   category: FoodCategory!
   cuisineTags: [String]!
-  cookingTime: String!
-  cookingDate:String!
-  createdAt: String!
-  uploadedImageUrl:String!
-  servings:Int!
+  cookingTime: AWSTimestamp!
+  cookingDate: AWSTimestamp!
+  uploadedImageUrl: String!
+  servings: Int!
+  owner: ID!
+  createdBy: String!
 }
 
-
-
-type User 
+type User
   @model
   @aws_iam
   @aws_cognito_user_pools
-  @key(name:"UserByOwner", fields: ["owner"], queryField: "UserByOwner")
-   @auth(rules: [{ allow: owner,operations: [create,update, read] }]) {
-    id:ID!
-    phoneNumber: String!
-    displayName: String!
-    firstName: String!
-    lastName: String!
-    aadharCardLink:String!
-    documentLink: String!
-    owner:ID!
+  @key(name: "UserByOwner", fields: ["owner"], queryField: "UserByOwner")
+  @auth(rules: [{ allow: owner, operations: [create, update, read] }]) {
+  id: ID!
+  phoneNumber: String!
+  displayName: String!
+  firstName: String!
+  lastName: String!
+  aadharCardLink: String!
+  documentLink: String!
+  owner: ID!
 }
