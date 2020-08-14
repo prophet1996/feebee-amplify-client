@@ -25,9 +25,7 @@ const FoodList = () => {
   const [orderPostId, setOrderPostId] = useState<string | null>(null);
 
   const _getFoodPosts = async () => {
-const p = await getFoodPosts();
-    setPosts(p);
-    console.log(p)
+    setPosts(await getFoodPosts());
   };
   useEffect(() => {
     if (posts.length === 0) _getFoodPosts();

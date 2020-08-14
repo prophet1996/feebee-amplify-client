@@ -158,7 +158,7 @@ const Account = () => {
               </IconButton>
             </Toolbar>
           </AppBar>
-          <AddFood onCloseAddFood={handleAddFoodClose} displayName={displayName} ></AddFood>
+          <AddFood onCloseAddFood={handleAddFoodClose} displayName={displayName} userId={owner}></AddFood>
         </div>
       </Drawer>
     </>

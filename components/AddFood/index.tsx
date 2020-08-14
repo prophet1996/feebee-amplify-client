@@ -28,7 +28,7 @@ import { foodCategory, FoodCategory,CustomFile } from "../../src/utils/types";
 import DateFnsUtils from "@date-io/date-fns";
 //Retrun code from successful post submission
 import { CODE } from "../../src/utils/const";
-import { addFoodPost } from '../../src/utils/services';
+import { addFoodPost, uploadPostImage } from '../../src/utils/services';
 
 const useStyles = makeStyles((_: Theme) =>
   createStyles({
@@ -63,14 +63,15 @@ const AddFood = ({
   CustomFile | null
   >(null);
   const onDrop = useCallback(async (acceptedFiles) => {
-    // uploadPostImage(acceptedFiles[0], uuidv4()).then((upload) => {
-    //   setPreviewImage({
-    //     ...acceptedFiles[0],
-    //     preview: URL.createObjectURL(acceptedFiles[0]),
-    //   });
-    //   console.log("acc", acceptedFiles[0]);
-    // setuploadedImageUrl(upload.metadata.fullPath);
-    // });
+    uploadPostImage(acceptedFiles[0], uuidv4(),userId)
+    .then((uploadedImageUrl:string) => {
+      setPreviewImage({
+        ...acceptedFiles[0],
+        preview: URL.createObjectURL(acceptedFiles[0]),
+      });
+      console.log("acc", acceptedFiles[0]);
+    setuploadedImageUrl(uploadedImageUrl);
+    });
   }, []);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
@@ -124,8 +125,7 @@ const AddFood = ({
       ...data,
       price:Number(data.price),
       servings:Number(data.servings),
-      //TODO: implement/fix this
-      uploadedImageUrl:"uploadedImageUrl",
+      uploadedImageUrl,
       cuisineTags: Array.from(currentSelectedCuisines),
       createdBy:displayName,
     },() => {

@@ -62,16 +62,8 @@ const FoodPostDetail = ({
   onClickGetIt: (id: string | undefined) => void;
 }) => {
   const classes = useStyles();
-  const [postImage, setPostImage] = useState(null);
-  const _getPostImage = async () => {
-    //TODO: implement this
-    // setPostImage(await getDownloadUrl(uploadedImageUrl));
-    setPostImage("TODO: implement this");
-    return;
-  };
-  useEffect(() => {
-    if (!postImage) _getPostImage();
-  }, []);
+
+
   const {
     name = "",
     cuisineTags = [],
@@ -79,7 +71,8 @@ const FoodPostDetail = ({
     cookingTime,
     description,
     servings,
-    category
+    category,
+    uploadedImageUrl:postImage,
   } = post;
 
   return (
