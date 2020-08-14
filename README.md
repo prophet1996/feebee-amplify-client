@@ -33,3 +33,4 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 After Changes in Graphql schema compile and push
 amplify api gql-compile
 amplify push
+change
