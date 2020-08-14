@@ -1,0 +1,40 @@
+{
+  "permissions": {
+    "api": {
+      "feebeeamplifyclient": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    },
+    "function": {
+      "feebeeAuthPostConfirmation": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    },
+    "storage": {
+      "s329f37960": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "FoodPost:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ],
+      "User:@model(appsync)": [
+        "create",
+        "read",
+        "update",
+        "delete"
+      ]
+    }
+  }
+}

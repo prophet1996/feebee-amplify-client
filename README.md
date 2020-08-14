@@ -33,3 +33,12 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 After Changes in Graphql schema compile and push
 amplify api gql-compile
 amplify push
+
+
+Amplify  lambda functions (payment feebeeclientpaymentfunction)
+
+Check out sample function code generated in <project-dir>/amplify/backend/function/feebeeclientpaymentfunction/src
+"amplify function build" builds all of your functions currently in the project
+"amplify mock function <functionName>" runs your function locally
+"amplify push" builds all of your local backend resources and provisions them in the cloud
+"amplify publish" builds all of your local backend and front-end resources (if you added hosting category) and provisions them in the cloud
