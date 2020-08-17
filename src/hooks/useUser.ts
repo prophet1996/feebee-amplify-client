@@ -11,11 +11,11 @@ export default ():null|User => {
 
   const _getUserData = async () => {
     const user = await Auth.currentAuthenticatedUser();
-    console.log(user)
     try{
       const userStoreData:GraphQLResult<UserByOwnerQuery> = (await API.graphql(
-      graphqlOperation(userByOwner, { owner: user?.attributes?.sub }) )as GraphQLResult<UserByOwnerQuery> 
-    );
+        graphqlOperation(userByOwner, { owner: user?.attributes?.sub }) )as GraphQLResult<UserByOwnerQuery> 
+        );
+        console.log(userStoreData)
     setUser((userStoreData?.data?.UserByOwner?.items||[])[0]);
     }catch(err){console.log(err)}
   };

@@ -36,4 +36,51 @@ type User
   aadharCardLink: String!
   documentLink: String!
   owner: ID!
+  orders: [ Order] @connection(keyName: "byUser",fields: ["id"],limit:20)
+}
+
+type Order @model 
+@auth(rules: [{ allow: owner, operations: [create, update, read] }])
+ @key(name: "byUser", fields: ["userId", "postId"]) 
+@aws_iam @aws_cognito_user_pools {
+  id: ID!
+  userId: ID!
+  price: Float!
+  postId: String!
+  servings: Int!
+  name: String!
+}
+
+type Query @aws_iam @aws_cognito_user_pools {
+  putOrder: CognitoUser @function(name: "orderfunction-${env}")
+}
+
+# These types derived from https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CognitoIdentityServiceProvider.html#adminGetUser-property
+type CognitoUser {
+  Username: String!
+  UserAttributes: [Value]
+  UserCreateDate: String
+  UserLastModifiedDate: String
+  Enabled: Boolean
+  UserStatus: UserStatus
+  MFAOptions: [MFAOption]
+  PreferredMfaSetting: String
+  UserMFASettingList: String
+}
+type Value {
+  Name: String!
+  Value: String
+}
+type MFAOption {
+  DeliveryMedium: String
+  AttributeName: String
+}
+enum UserStatus {
+  UNCONFIRMED
+  CONFIRMED
+  ARCHIVED
+  COMPROMISED
+  UNKNOWN
+  RESET_REQUIRED
+  FORCE_CHANGE_PASSWORD
 }

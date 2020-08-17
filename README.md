@@ -42,3 +42,7 @@ Check out sample function code generated in <project-dir>/amplify/backend/functi
 "amplify mock function <functionName>" runs your function locally
 "amplify push" builds all of your local backend resources and provisions them in the cloud
 "amplify publish" builds all of your local backend and front-end resources (if you added hosting category) and provisions them in the cloud
+
+
+//PR this
+https://github.com/aws-amplify/amplify-cli/issues/678

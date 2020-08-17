@@ -9,11 +9,12 @@
 	STORAGE_S329F37960_BUCKETNAME
 Amplify Params - DO NOT EDIT */
 
-exports.handler = async (event) => {
-    // TODO implement
-    const response = {
-        statusCode: 200,
-        body: JSON.stringify('Hello from Lambda!'),
-    };
-    return response;
+exports.handler = async (event,callback) => {
+	// TODO implement
+	console.log(event);
+	callback(null,{
+		price: "1", postId: "1",
+		servings: "1",
+		name: "1"
+	});
 };

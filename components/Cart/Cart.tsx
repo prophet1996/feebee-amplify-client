@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { API, graphqlOperation } from "aws-amplify";
 import {
   Dialog,
   AppBar,
@@ -11,10 +12,15 @@ import {
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { TransitionProps } from "@material-ui/core/transitions";
 import Slide from "@material-ui/core/Slide";
-import { FoodPostDocument, CartState, CartContextType } from "../../src/utils/types";
+import {
+  FoodPostDocument,
+  CartState,
+  CartContextType,
+} from "../../src/utils/types";
 import { LABELS } from "../../src/utils/const";
 // import { getUserAccount, updateCart } from "../../utils/service/firestore";
 import CustomSlider from "../CustomSlider";
+import { createOrder } from "../../src/graphql/mutations";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -61,7 +67,7 @@ const Cart = ({
 }) => {
   const classes = useStyles();
   const [account, setAccount]: any = useState();
-  const [currentCart,setCurrentCart] = useState();
+  const [currentCart, setCurrentCart] = useState();
   // const maxServings =  post?.foodPost.servings || 1;
   const [orderServings, setOrderServings] = useState(1);
   const _getAccount = async () => {
@@ -72,12 +78,23 @@ const Cart = ({
   };
   const _updateCart = async () => {
     // const newCart = (await updateCart(cart));
-    
+
     //TODO: implement this
     // updateCart(cart);
-    
-    // setCurrentCart(newCart);
 
+    // setCurrentCart(newCart);
+    const tempOrder = {
+      id: "b8f6b7a2-90a1-4a85-8b1b-das3c6ec",
+      price: 10.1,
+      postId: "2",
+      servings: 2,
+      name: "isahnk",
+      userId:"b8f6b7a2-90a1-4a85-8b1b-90ec8903c6ec"
+    };
+
+    API.graphql(graphqlOperation(createOrder, {input:tempOrder}))
+      .then((data) => console.log({ data }))
+      .catch((err) => console.log("error: ", err));
   };
   useEffect(() => {
     if (!account) _getAccount();

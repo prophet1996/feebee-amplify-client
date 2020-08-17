@@ -1,119 +1,161 @@
 {
-	"api": {
-		"feebeeamplifyclient": {
-			"service": "AppSync",
-			"providerPlugin": "awscloudformation",
-			"output": {
-				"authConfig": {
-					"additionalAuthenticationProviders": [
-						{
-							"authenticationType": "API_KEY",
-							"apiKeyConfig": {
-								"description": "feebeeAuthUserPoolApiKey",
-								"apiKeyExpirationDays": 365
-							}
-						}
-					],
-					"defaultAuthentication": {
-						"authenticationType": "AMAZON_COGNITO_USER_POOLS",
-						"userPoolConfig": {
-							"userPoolId": "authfeebeeAuth"
-						}
-					}
-				}
-			}
-		}
-	},
-	"auth": {
-		"userPoolGroups": {
-			"service": "Cognito-UserPool-Groups",
-			"providerPlugin": "awscloudformation",
-			"dependsOn": [
-				{
-					"category": "auth",
-					"resourceName": "feebeeAuth",
-					"attributes": [
-						"UserPoolId",
-						"AppClientIDWeb",
-						"AppClientID",
-						"IdentityPoolId"
-					]
-				}
-			]
-		},
-		"feebeeAuth": {
-			"service": "Cognito",
-			"providerPlugin": "awscloudformation",
-			"dependsOn": [
-				{
-					"category": "function",
-					"resourceName": "feebeeAuthPostConfirmation",
-					"triggerProvider": "Cognito",
-					"attributes": [
-						"Arn",
-						"Name"
-					]
-				}
-			]
-		}
-	},
-	"hosting": {},
-	"function": {
-		"feebeeAuthPostConfirmation": {
-			"build": true,
-			"providerPlugin": "awscloudformation",
-			"service": "Lambda"
-		},
-		"feebeeclientpaymentfunction": {
-			"build": true,
-			"providerPlugin": "awscloudformation",
-			"service": "Lambda",
-			"dependsOn": [
-				{
-					"category": "api",
-					"resourceName": "feebeeamplifyclient",
-					"attributes": [
-						"GraphQLAPIIdOutput",
-						"GraphQLAPIEndpointOutput"
-					]
-				},
-				{
-					"category": "function",
-					"resourceName": "feebeeAuthPostConfirmation",
-					"attributes": [
-						"Name"
-					]
-				},
-				{
-					"category": "storage",
-					"resourceName": "s329f37960",
-					"attributes": [
-						"BucketName"
-					]
-				}
-			]
-		}
-	},
-	"storage": {
-		"s329f37960": {
-			"service": "S3",
-			"providerPlugin": "awscloudformation",
-			"dependsOn": [
-				{
-					"category": "auth",
-					"resourceName": "feebeeAuth",
-					"attributes": [
-						"UserPoolId"
-					]
-				},
-				{
-					"category": "auth",
-					"resourceName": "userPoolGroups",
-					"attributes": [
-						"feebeeAuthUserPoolGroupGroupRole"
-					]
-				}
-			]
-		}
-	}
+    "api": {
+        "feebeeamplifyclient": {
+            "service": "AppSync",
+            "providerPlugin": "awscloudformation",
+            "output": {
+                "authConfig": {
+                    "additionalAuthenticationProviders": [
+                        {
+                            "authenticationType": "API_KEY",
+                            "apiKeyConfig": {
+                                "description": "feebeeAuthUserPoolApiKey",
+                                "apiKeyExpirationDays": 365
+                            }
+                        }
+                    ],
+                    "defaultAuthentication": {
+                        "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+                        "userPoolConfig": {
+                            "userPoolId": "authfeebeeAuth"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "auth": {
+        "userPoolGroups": {
+            "service": "Cognito-UserPool-Groups",
+            "providerPlugin": "awscloudformation",
+            "dependsOn": [
+                {
+                    "category": "auth",
+                    "resourceName": "feebeeAuth",
+                    "attributes": [
+                        "UserPoolId",
+                        "AppClientIDWeb",
+                        "AppClientID",
+                        "IdentityPoolId"
+                    ]
+                }
+            ]
+        },
+        "feebeeAuth": {
+            "service": "Cognito",
+            "providerPlugin": "awscloudformation",
+            "dependsOn": [
+                {
+                    "category": "function",
+                    "resourceName": "feebeeAuthPostConfirmation",
+                    "triggerProvider": "Cognito",
+                    "attributes": [
+                        "Arn",
+                        "Name"
+                    ]
+                }
+            ]
+        }
+    },
+    "hosting": {},
+    "function": {
+        "feebeeAuthPostConfirmation": {
+            "build": true,
+            "providerPlugin": "awscloudformation",
+            "service": "Lambda"
+        },
+        "feebeeclientpaymentfunction": {
+            "build": true,
+            "providerPlugin": "awscloudformation",
+            "service": "Lambda",
+            "dependsOn": [
+                {
+                    "category": "api",
+                    "resourceName": "feebeeamplifyclient",
+                    "attributes": [
+                        "GraphQLAPIIdOutput",
+                        "GraphQLAPIEndpointOutput"
+                    ]
+                },
+                {
+                    "category": "function",
+                    "resourceName": "feebeeAuthPostConfirmation",
+                    "attributes": [
+                        "Name"
+                    ]
+                },
+                {
+                    "category": "storage",
+                    "resourceName": "s329f37960",
+                    "attributes": [
+                        "BucketName"
+                    ]
+                }
+            ]
+        },
+        "orderfunction": {
+            "build": true,
+            "providerPlugin": "awscloudformation",
+            "service": "Lambda",
+            "dependsOn": [
+                {
+                    "category": "api",
+                    "resourceName": "feebeeamplifyclient",
+                    "attributes": [
+                        "GraphQLAPIIdOutput",
+                        "GraphQLAPIEndpointOutput",
+                        "GraphQLAPIKeyOutput"
+                    ]
+                },
+                {
+                    "category": "auth",
+                    "resourceName": "feebeeAuth",
+                    "attributes": [
+                        "UserPoolId"
+                    ]
+                },
+                {
+                    "category": "function",
+                    "resourceName": "feebeeAuthPostConfirmation",
+                    "attributes": [
+                        "Name"
+                    ]
+                },
+                {
+                    "category": "storage",
+                    "resourceName": "ordertable",
+                    "attributes": [
+                        "Name",
+                        "Arn"
+                    ]
+                }
+            ]
+        }
+    },
+    "storage": {
+        "s329f37960": {
+            "service": "S3",
+            "providerPlugin": "awscloudformation",
+            "dependsOn": [
+                {
+                    "category": "auth",
+                    "resourceName": "feebeeAuth",
+                    "attributes": [
+                        "UserPoolId"
+                    ]
+                },
+                {
+                    "category": "auth",
+                    "resourceName": "userPoolGroups",
+                    "attributes": [
+                        "feebeeAuthUserPoolGroupGroupRole"
+                    ]
+                }
+            ]
+        },
+        "ordertable": {
+            "service": "DynamoDB",
+            "providerPlugin": "awscloudformation"
+        }
+    }
 }

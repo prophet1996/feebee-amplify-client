@@ -1,0 +1,75 @@
+{
+  "typeName": "Query",
+  "fieldName": "createOrder",
+  "arguments": {},
+  "identity": {
+    "claims": {
+      "sub": "38cb7bf4-9d6f-4eb3-a3c3-e5d3c6394841",
+      "cognito:groups": [
+        null
+      ],
+      "address": [
+        null
+      ],
+      "cognito:preferred_role": "arn:aws:iam::506170556505:role/ap-southeast-1_gRtZjTg2A-feebeeAuthUserPoolGroupGroupRole",
+      "iss": "https://cognito-idp.ap-southeast-1.amazonaws.com/ap-southeast-1_gRtZjTg2A",
+      "phone_number_verified": true,
+      "cognito:username": "38cb7bf4-9d6f-4eb3-a3c3-e5d3c6394841",
+      "cognito:roles": [
+        null
+      ],
+      "aud": "3au4r6o752v1nllamtq6qpp88t",
+      "event_id": "3eec39c9-4106-48e1-8529-fa7ba82910b7",
+      "token_use": "id",
+      "auth_time": 1597604203,
+      "phone_number": "+919380556186",
+      "exp": 1597607803,
+      "iat": 1597604203
+    },
+    "defaultAuthStrategy": "ALLOW",
+    "groups": [
+      "everyone",
+      "feebeeAuthUserPoolGroup"
+    ],
+    "issuer": "https://cognito-idp.ap-southeast-1.amazonaws.com/ap-southeast-1_gRtZjTg2A",
+    "sourceIp": [
+      "103.210.201.218"
+    ],
+    "sub": "38cb7bf4-9d6f-4eb3-a3c3-e5d3c6394841",
+    "username": "38cb7bf4-9d6f-4eb3-a3c3-e5d3c6394841"
+  },
+  "source": null,
+  "request": {
+    "headers": {
+      "x-forwarded-for": "103.210.201.218, 130.176.20.95",
+      "cloudfront-viewer-country": "IN",
+      "cloudfront-is-tablet-viewer": "false",
+      "via": "2.0 51a5ba5390c46a4a3602d19ffd3d17ad.cloudfront.net (CloudFront)",
+      "cloudfront-forwarded-proto": "https",
+      "origin": "https://ap-southeast-1.console.aws.amazon.com",
+      "content-length": "2313",
+      "accept-language": "en-GB,en-US;q=0.9,en;q=0.8",
+      "host": "nrucaed6mneh7kt7w2mpmigzna.appsync-api.ap-southeast-1.amazonaws.com",
+      "x-forwarded-proto": "https",
+      "user-agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36",
+      "accept": "*/*",
+      "cloudfront-is-mobile-viewer": "false",
+      "cloudfront-is-smarttv-viewer": "false",
+      "accept-encoding": "gzip, deflate, br",
+      "referer": "https://nrucaed6mneh7kt7w2mpmigzna.appsync-api.ap-southeast-1.amazonaws.com/",
+      "content-type": "application/json",
+      "sec-fetch-mode": "cors",
+      "x-amz-cf-id": "8K7_POvOw_r2BYpaVD9KXN0khAn3ZC6Ns1YiPAMeB62taWctiZ39PQ==",
+      "x-amzn-trace-id": "Root=1-5f3982c5-8957fb383ec43348feabef7d",
+      "authorization": "eyJraWQiOiJ0bUZVMTF6b0FkZzJkUW1BWEdya1hPek9HVWszcHN6U2F2M29YQkZMcmw4PSIsImFsZyI6IlJTMjU2In0.eyJzdWIiOiIzOGNiN2JmNC05ZDZmLTRlYjMtYTNjMy1lNWQzYzYzOTQ4NDEiLCJjb2duaXRvOmdyb3VwcyI6WyJldmVyeW9uZSIsImZlZWJlZUF1dGhVc2VyUG9vbEdyb3VwIl0sImFkZHJlc3MiOnsiZm9ybWF0dGVkIjoiMTIzMTIzMSJ9LCJjb2duaXRvOnByZWZlcnJlZF9yb2xlIjoiYXJuOmF3czppYW06OjUwNjE3MDU1NjUwNTpyb2xlXC9hcC1zb3V0aGVhc3QtMV9nUnRaalRnMkEtZmVlYmVlQXV0aFVzZXJQb29sR3JvdXBHcm91cFJvbGUiLCJpc3MiOiJodHRwczpcL1wvY29nbml0by1pZHAuYXAtc291dGhlYXN0LTEuYW1hem9uYXdzLmNvbVwvYXAtc291dGhlYXN0LTFfZ1J0WmpUZzJBIiwicGhvbmVfbnVtYmVyX3ZlcmlmaWVkIjp0cnVlLCJjb2duaXRvOnVzZXJuYW1lIjoiMzhjYjdiZjQtOWQ2Zi00ZWIzLWEzYzMtZTVkM2M2Mzk0ODQxIiwiY29nbml0bzpyb2xlcyI6WyJhcm46YXdzOmlhbTo6NTA2MTcwNTU2NTA1OnJvbGVcL2FwLXNvdXRoZWFzdC0xX2dSdFpqVGcyQS1mZWViZWVBdXRoVXNlclBvb2xHcm91cEdyb3VwUm9sZSIsImFybjphd3M6aWFtOjo1MDYxNzA1NTY1MDU6cm9sZVwvZmVlYmVlQXV0aFBvc3RDb25maXJtYXRpb24tZGV2Il0sImF1ZCI6IjNhdTRyNm83NTJ2MW5sbGFtdHE2cXBwODh0IiwiZXZlbnRfaWQiOiIzZWVjMzljOS00MTA2LTQ4ZTEtODUyOS1mYTdiYTgyOTEwYjciLCJ0b2tlbl91c2UiOiJpZCIsImF1dGhfdGltZSI6MTU5NzYwNDIwMywicGhvbmVfbnVtYmVyIjoiKzkxOTM4MDU1NjE4NiIsImV4cCI6MTU5NzYwNzgwMywiaWF0IjoxNTk3NjA0MjAzfQ.Y7m8-SbiNln2XO1IdTzNcddvZFThrWSVMNJTVwjEAf5lIro1Z5vRAI5aNn0SJ0kvWOtNJC_u-SVQWhz6iutHf1iKEwkWS5lRCsMIrUIX-nVOtufP46TQwiDdwO328vh-8fU3AJmP6YKBuaCurzruwjAghExO26yyUID3F5gotGE9kYm5SIUfKRLnswrvMR2qoTDWTCAfEnVh9JN4NrkFZrIQvA3-44brZ3H00BmTw9JY4fEmHBMM5v5P82dnskQX9-5IjBVt5-UHYP5z-GTdhNPfSa6pcsRvgq2QCrMk8s9-m7tPFyWfDHrzF1WHuaaRVkU-cn-b7MATXQsZ8h2ePw",
+      "sec-fetch-dest": "empty",
+      "x-amz-user-agent": "AWS-Console-AppSync/",
+      "cloudfront-is-desktop-viewer": "true",
+      "sec-fetch-site": "cross-site",
+      "x-forwarded-port": "443"
+    }
+  },
+  "prev": {
+    "result": {}
+  }
+}

@@ -73,6 +73,20 @@ export const onCreateUser = /* GraphQL */ `
       aadharCardLink
       documentLink
       owner
+      orders {
+        items {
+          id
+          userId
+          price
+          postId
+          servings
+          name
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -89,6 +103,20 @@ export const onUpdateUser = /* GraphQL */ `
       aadharCardLink
       documentLink
       owner
+      orders {
+        items {
+          id
+          userId
+          price
+          postId
+          servings
+          name
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -105,8 +133,67 @@ export const onDeleteUser = /* GraphQL */ `
       aadharCardLink
       documentLink
       owner
+      orders {
+        items {
+          id
+          userId
+          price
+          postId
+          servings
+          name
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
+      }
       createdAt
       updatedAt
+    }
+  }
+`;
+export const onCreateOrder = /* GraphQL */ `
+  subscription OnCreateOrder($owner: String!) {
+    onCreateOrder(owner: $owner) {
+      id
+      userId
+      price
+      postId
+      servings
+      name
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onUpdateOrder = /* GraphQL */ `
+  subscription OnUpdateOrder($owner: String!) {
+    onUpdateOrder(owner: $owner) {
+      id
+      userId
+      price
+      postId
+      servings
+      name
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const onDeleteOrder = /* GraphQL */ `
+  subscription OnDeleteOrder($owner: String!) {
+    onDeleteOrder(owner: $owner) {
+      id
+      userId
+      price
+      postId
+      servings
+      name
+      createdAt
+      updatedAt
+      owner
     }
   }
 `;

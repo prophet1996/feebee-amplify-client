@@ -2,6 +2,27 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const putOrder = /* GraphQL */ `
+  query PutOrder {
+    putOrder {
+      Username
+      UserAttributes {
+        Name
+        Value
+      }
+      UserCreateDate
+      UserLastModifiedDate
+      Enabled
+      UserStatus
+      MFAOptions {
+        DeliveryMedium
+        AttributeName
+      }
+      PreferredMfaSetting
+      UserMFASettingList
+    }
+  }
+`;
 export const getFoodPost = /* GraphQL */ `
   query GetFoodPost($id: ID!) {
     getFoodPost(id: $id) {
@@ -60,6 +81,20 @@ export const getUser = /* GraphQL */ `
       aadharCardLink
       documentLink
       owner
+      orders {
+        items {
+          id
+          userId
+          price
+          postId
+          servings
+          name
+          createdAt
+          updatedAt
+          owner
+        }
+        nextToken
+      }
       createdAt
       updatedAt
     }
@@ -81,8 +116,59 @@ export const listUsers = /* GraphQL */ `
         aadharCardLink
         documentLink
         owner
+        orders {
+          items {
+            id
+            userId
+            price
+            postId
+            servings
+            name
+            createdAt
+            updatedAt
+            owner
+          }
+          nextToken
+        }
         createdAt
         updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getOrder = /* GraphQL */ `
+  query GetOrder($id: ID!) {
+    getOrder(id: $id) {
+      id
+      userId
+      price
+      postId
+      servings
+      name
+      createdAt
+      updatedAt
+      owner
+    }
+  }
+`;
+export const listOrders = /* GraphQL */ `
+  query ListOrders(
+    $filter: ModelOrderFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listOrders(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        userId
+        price
+        postId
+        servings
+        name
+        createdAt
+        updatedAt
+        owner
       }
       nextToken
     }
@@ -112,6 +198,20 @@ export const userByOwner = /* GraphQL */ `
         aadharCardLink
         documentLink
         owner
+        orders {
+          items {
+            id
+            userId
+            price
+            postId
+            servings
+            name
+            createdAt
+            updatedAt
+            owner
+          }
+          nextToken
+        }
         createdAt
         updatedAt
       }

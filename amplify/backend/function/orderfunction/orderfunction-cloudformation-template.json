@@ -1,0 +1,637 @@
+{
+	"AWSTemplateFormatVersion": "2010-09-09",
+	"Description": "Lambda Function resource stack creation using Amplify CLI",
+	"Parameters": {
+		"CloudWatchRule": {
+			"Type": "String",
+			"Default": "NONE",
+			"Description": " Schedule Expression"
+		},
+		"env": {
+			"Type": "String"
+		},
+		"apifeebeeamplifyclientGraphQLAPIIdOutput": {
+			"Type": "String",
+			"Default": "apifeebeeamplifyclientGraphQLAPIIdOutput"
+		},
+		"apifeebeeamplifyclientGraphQLAPIEndpointOutput": {
+			"Type": "String",
+			"Default": "apifeebeeamplifyclientGraphQLAPIEndpointOutput"
+		},
+		"apifeebeeamplifyclientGraphQLAPIKeyOutput": {
+			"Type": "String",
+			"Default": "apifeebeeamplifyclientGraphQLAPIKeyOutput"
+		},
+		"functionfeebeeAuthPostConfirmationName": {
+			"Type": "String",
+			"Default": "functionfeebeeAuthPostConfirmationName"
+		},
+		"storageordertableName": {
+			"Type": "String",
+			"Default": "storageordertableName"
+		},
+		"storageordertableArn": {
+			"Type": "String",
+			"Default": "storageordertableArn"
+		},
+		"authfeebeeAuthUserPoolId": {
+			"Type": "String",
+			"Default": "authfeebeeAuthUserPoolId"
+		}
+	},
+	"Conditions": {
+		"ShouldNotCreateEnvResources": {
+			"Fn::Equals": [
+				{
+					"Ref": "env"
+				},
+				"NONE"
+			]
+		}
+	},
+	"Resources": {
+		"LambdaFunction": {
+			"Type": "AWS::Lambda::Function",
+			"Metadata": {
+				"aws:asset:path": "./src",
+				"aws:asset:property": "Code"
+			},
+			"Properties": {
+				"Handler": "index.handler",
+				"FunctionName": {
+					"Fn::If": [
+						"ShouldNotCreateEnvResources",
+						"orderfunction",
+						{
+							"Fn::Join": [
+								"",
+								[
+									"orderfunction",
+									"-",
+									{
+										"Ref": "env"
+									}
+								]
+							]
+						}
+					]
+				},
+				"Environment": {
+					"Variables": {
+						"ENV": {
+							"Ref": "env"
+						},
+						"REGION": {
+							"Ref": "AWS::Region"
+						},
+						"API_FEEBEEAMPLIFYCLIENT_GRAPHQLAPIIDOUTPUT": {
+							"Ref": "apifeebeeamplifyclientGraphQLAPIIdOutput"
+						},
+						"API_FEEBEEAMPLIFYCLIENT_GRAPHQLAPIENDPOINTOUTPUT": {
+							"Ref": "apifeebeeamplifyclientGraphQLAPIEndpointOutput"
+						},
+						"API_FEEBEEAMPLIFYCLIENT_GRAPHQLAPIKEYOUTPUT": {
+							"Ref": "apifeebeeamplifyclientGraphQLAPIKeyOutput"
+						},
+						"FUNCTION_FEEBEEAUTHPOSTCONFIRMATION_NAME": {
+							"Ref": "functionfeebeeAuthPostConfirmationName"
+						},
+						"STORAGE_ORDERTABLE_NAME": {
+							"Ref": "storageordertableName"
+						},
+						"STORAGE_ORDERTABLE_ARN": {
+							"Ref": "storageordertableArn"
+						},
+						"API_FEEBEEAMPLIFYCLIENT_FOODPOSTTABLE_NAME": {
+							"Fn::ImportValue": {
+								"Fn::Sub": "${apifeebeeamplifyclientGraphQLAPIIdOutput}:GetAtt:FoodPostTable:Name"
+							}
+						},
+						"API_FEEBEEAMPLIFYCLIENT_FOODPOSTTABLE_ARN": {
+							"Fn::Join": [
+								"",
+								[
+									"arn:aws:dynamodb:",
+									{
+										"Ref": "AWS::Region"
+									},
+									":",
+									{
+										"Ref": "AWS::AccountId"
+									},
+									":table/",
+									{
+										"Fn::ImportValue": {
+											"Fn::Sub": "${apifeebeeamplifyclientGraphQLAPIIdOutput}:GetAtt:FoodPostTable:Name"
+										}
+									}
+								]
+							]
+						},
+						"API_FEEBEEAMPLIFYCLIENT_USERTABLE_NAME": {
+							"Fn::ImportValue": {
+								"Fn::Sub": "${apifeebeeamplifyclientGraphQLAPIIdOutput}:GetAtt:UserTable:Name"
+							}
+						},
+						"API_FEEBEEAMPLIFYCLIENT_USERTABLE_ARN": {
+							"Fn::Join": [
+								"",
+								[
+									"arn:aws:dynamodb:",
+									{
+										"Ref": "AWS::Region"
+									},
+									":",
+									{
+										"Ref": "AWS::AccountId"
+									},
+									":table/",
+									{
+										"Fn::ImportValue": {
+											"Fn::Sub": "${apifeebeeamplifyclientGraphQLAPIIdOutput}:GetAtt:UserTable:Name"
+										}
+									}
+								]
+							]
+						},
+						"AUTH_FEEBEEAUTH_USERPOOLID": {
+							"Ref": "authfeebeeAuthUserPoolId"
+						}
+					}
+				},
+				"Role": {
+					"Fn::GetAtt": [
+						"LambdaExecutionRole",
+						"Arn"
+					]
+				},
+				"Runtime": "nodejs12.x",
+				"Layers": [],
+				"Timeout": "25",
+				"Code": {
+					"S3Bucket": "amplify-feebeeamplifyclient-dev-130511-deployment",
+					"S3Key": "amplify-builds/orderfunction-764c677079307737316b-build.zip"
+				}
+			}
+		},
+		"LambdaExecutionRole": {
+			"Type": "AWS::IAM::Role",
+			"Properties": {
+				"RoleName": {
+					"Fn::If": [
+						"ShouldNotCreateEnvResources",
+						"feebeeamplifyclientLambdaRolef99cbe94",
+						{
+							"Fn::Join": [
+								"",
+								[
+									"feebeeamplifyclientLambdaRolef99cbe94",
+									"-",
+									{
+										"Ref": "env"
+									}
+								]
+							]
+						}
+					]
+				},
+				"AssumeRolePolicyDocument": {
+					"Version": "2012-10-17",
+					"Statement": [
+						{
+							"Effect": "Allow",
+							"Principal": {
+								"Service": [
+									"lambda.amazonaws.com"
+								]
+							},
+							"Action": [
+								"sts:AssumeRole"
+							]
+						}
+					]
+				}
+			}
+		},
+		"lambdaexecutionpolicy": {
+			"DependsOn": [
+				"LambdaExecutionRole"
+			],
+			"Type": "AWS::IAM::Policy",
+			"Properties": {
+				"PolicyName": "lambda-execution-policy",
+				"Roles": [
+					{
+						"Ref": "LambdaExecutionRole"
+					}
+				],
+				"PolicyDocument": {
+					"Version": "2012-10-17",
+					"Statement": [
+						{
+							"Effect": "Allow",
+							"Action": [
+								"logs:CreateLogGroup",
+								"logs:CreateLogStream",
+								"logs:PutLogEvents"
+							],
+							"Resource": {
+								"Fn::Sub": [
+									"arn:aws:logs:${region}:${account}:log-group:/aws/lambda/${lambda}:log-stream:*",
+									{
+										"region": {
+											"Ref": "AWS::Region"
+										},
+										"account": {
+											"Ref": "AWS::AccountId"
+										},
+										"lambda": {
+											"Ref": "LambdaFunction"
+										}
+									}
+								]
+							}
+						}
+					]
+				}
+			}
+		},
+		"AmplifyResourcesPolicy": {
+			"DependsOn": [
+				"LambdaExecutionRole"
+			],
+			"Type": "AWS::IAM::Policy",
+			"Properties": {
+				"PolicyName": "amplify-lambda-execution-policy",
+				"Roles": [
+					{
+						"Ref": "LambdaExecutionRole"
+					}
+				],
+				"PolicyDocument": {
+					"Version": "2012-10-17",
+					"Statement": [
+						{
+							"Effect": "Allow",
+							"Action": [
+								"appsync:Create*",
+								"appsync:StartSchemaCreation",
+								"appsync:GraphQL",
+								"appsync:Get*",
+								"appsync:List*",
+								"appsync:Update*",
+								"appsync:Delete*"
+							],
+							"Resource": [
+								{
+									"Fn::Join": [
+										"",
+										[
+											"arn:aws:appsync:",
+											{
+												"Ref": "AWS::Region"
+											},
+											":",
+											{
+												"Ref": "AWS::AccountId"
+											},
+											":apis/",
+											{
+												"Ref": "apifeebeeamplifyclientGraphQLAPIIdOutput"
+											},
+											"/*"
+										]
+									]
+								}
+							]
+						},
+						{
+							"Effect": "Allow",
+							"Action": [
+								"cognito-idp:ConfirmSignUp",
+								"cognito-idp:AdminCreateUser",
+								"cognito-idp:CreateUserImportJob",
+								"cognito-idp:AdminSetUserSettings",
+								"cognito-idp:AdminLinkProviderForUser",
+								"cognito-idp:CreateIdentityProvider",
+								"cognito-idp:AdminConfirmSignUp",
+								"cognito-idp:AdminDisableUser",
+								"cognito-idp:AdminRemoveUserFromGroup",
+								"cognito-idp:SetUserMFAPreference",
+								"cognito-idp:SetUICustomization",
+								"cognito-idp:SignUp",
+								"cognito-idp:VerifyUserAttribute",
+								"cognito-idp:SetRiskConfiguration",
+								"cognito-idp:StartUserImportJob",
+								"cognito-idp:AdminSetUserPassword",
+								"cognito-idp:AssociateSoftwareToken",
+								"cognito-idp:CreateResourceServer",
+								"cognito-idp:RespondToAuthChallenge",
+								"cognito-idp:CreateUserPoolClient",
+								"cognito-idp:AdminUserGlobalSignOut",
+								"cognito-idp:GlobalSignOut",
+								"cognito-idp:AddCustomAttributes",
+								"cognito-idp:CreateGroup",
+								"cognito-idp:CreateUserPool",
+								"cognito-idp:AdminForgetDevice",
+								"cognito-idp:AdminAddUserToGroup",
+								"cognito-idp:AdminRespondToAuthChallenge",
+								"cognito-idp:ForgetDevice",
+								"cognito-idp:CreateUserPoolDomain",
+								"cognito-idp:AdminEnableUser",
+								"cognito-idp:AdminUpdateDeviceStatus",
+								"cognito-idp:StopUserImportJob",
+								"cognito-idp:InitiateAuth",
+								"cognito-idp:AdminInitiateAuth",
+								"cognito-idp:AdminSetUserMFAPreference",
+								"cognito-idp:ConfirmForgotPassword",
+								"cognito-idp:SetUserSettings",
+								"cognito-idp:VerifySoftwareToken",
+								"cognito-idp:AdminDisableProviderForUser",
+								"cognito-idp:SetUserPoolMfaConfig",
+								"cognito-idp:ChangePassword",
+								"cognito-idp:ConfirmDevice",
+								"cognito-idp:AdminResetUserPassword",
+								"cognito-idp:ResendConfirmationCode",
+								"cognito-identity:Describe*",
+								"cognito-identity:Get*",
+								"cognito-identity:List*",
+								"cognito-idp:Describe*",
+								"cognito-idp:AdminGetDevice",
+								"cognito-idp:AdminGetUser",
+								"cognito-idp:AdminList*",
+								"cognito-idp:List*",
+								"cognito-sync:Describe*",
+								"cognito-sync:Get*",
+								"cognito-sync:List*",
+								"iam:ListOpenIdConnectProviders",
+								"iam:ListRoles",
+								"sns:ListPlatformApplications",
+								"cognito-idp:ForgotPassword",
+								"cognito-idp:UpdateAuthEventFeedback",
+								"cognito-idp:UpdateResourceServer",
+								"cognito-idp:UpdateUserPoolClient",
+								"cognito-idp:AdminUpdateUserAttributes",
+								"cognito-idp:UpdateUserAttributes",
+								"cognito-idp:UpdateUserPoolDomain",
+								"cognito-idp:UpdateIdentityProvider",
+								"cognito-idp:UpdateGroup",
+								"cognito-idp:AdminUpdateAuthEventFeedback",
+								"cognito-idp:UpdateDeviceStatus",
+								"cognito-idp:UpdateUserPool",
+								"cognito-idp:DeleteUserPoolDomain",
+								"cognito-idp:DeleteResourceServer",
+								"cognito-idp:DeleteGroup",
+								"cognito-idp:AdminDeleteUserAttributes",
+								"cognito-idp:DeleteUserPoolClient",
+								"cognito-idp:DeleteUserAttributes",
+								"cognito-idp:DeleteUserPool",
+								"cognito-idp:AdminDeleteUser",
+								"cognito-idp:DeleteIdentityProvider",
+								"cognito-idp:DeleteUser"
+							],
+							"Resource": [
+								{
+									"Fn::Join": [
+										"",
+										[
+											"arn:aws:cognito-idp:",
+											{
+												"Ref": "AWS::Region"
+											},
+											":",
+											{
+												"Ref": "AWS::AccountId"
+											},
+											":userpool/",
+											{
+												"Ref": "authfeebeeAuthUserPoolId"
+											}
+										]
+									]
+								}
+							]
+						},
+						{
+							"Effect": "Allow",
+							"Action": [
+								"lambda:Create*",
+								"lambda:Put*",
+								"lambda:Add*",
+								"lambda:Get*",
+								"lambda:List*",
+								"lambda:Invoke*",
+								"lambda:Update*",
+								"lambda:Delete*",
+								"lambda:Remove*"
+							],
+							"Resource": [
+								{
+									"Fn::Join": [
+										"",
+										[
+											"arn:aws:lambda:",
+											{
+												"Ref": "AWS::Region"
+											},
+											":",
+											{
+												"Ref": "AWS::AccountId"
+											},
+											":function:",
+											{
+												"Ref": "functionfeebeeAuthPostConfirmationName"
+											}
+										]
+									]
+								}
+							]
+						},
+						{
+							"Effect": "Allow",
+							"Action": [
+								"dynamodb:Put*",
+								"dynamodb:Create*",
+								"dynamodb:BatchWriteItem",
+								"dynamodb:Get*",
+								"dynamodb:BatchGetItem",
+								"dynamodb:List*",
+								"dynamodb:Describe*",
+								"dynamodb:Scan",
+								"dynamodb:Query",
+								"dynamodb:Update*",
+								"dynamodb:RestoreTable*",
+								"dynamodb:Delete*"
+							],
+							"Resource": [
+								{
+									"Ref": "storageordertableArn"
+								},
+								{
+									"Fn::Join": [
+										"/",
+										[
+											{
+												"Ref": "storageordertableArn"
+											},
+											"index/*"
+										]
+									]
+								}
+							]
+						},
+						{
+							"Effect": "Allow",
+							"Action": [
+								"dynamodb:Put*",
+								"dynamodb:Create*",
+								"dynamodb:BatchWriteItem",
+								"dynamodb:Get*",
+								"dynamodb:BatchGetItem",
+								"dynamodb:List*",
+								"dynamodb:Describe*",
+								"dynamodb:Scan",
+								"dynamodb:Query",
+								"dynamodb:Update*",
+								"dynamodb:RestoreTable*",
+								"dynamodb:Delete*"
+							],
+							"Resource": [
+								{
+									"Fn::Join": [
+										"",
+										[
+											"arn:aws:dynamodb:",
+											{
+												"Ref": "AWS::Region"
+											},
+											":",
+											{
+												"Ref": "AWS::AccountId"
+											},
+											":table/",
+											{
+												"Fn::ImportValue": {
+													"Fn::Sub": "${apifeebeeamplifyclientGraphQLAPIIdOutput}:GetAtt:FoodPostTable:Name"
+												}
+											}
+										]
+									]
+								},
+								{
+									"Fn::Join": [
+										"",
+										[
+											"arn:aws:dynamodb:",
+											{
+												"Ref": "AWS::Region"
+											},
+											":",
+											{
+												"Ref": "AWS::AccountId"
+											},
+											":table/",
+											{
+												"Fn::ImportValue": {
+													"Fn::Sub": "${apifeebeeamplifyclientGraphQLAPIIdOutput}:GetAtt:FoodPostTable:Name"
+												}
+											},
+											"/index/*"
+										]
+									]
+								}
+							]
+						},
+						{
+							"Effect": "Allow",
+							"Action": [
+								"dynamodb:Put*",
+								"dynamodb:Create*",
+								"dynamodb:BatchWriteItem",
+								"dynamodb:Get*",
+								"dynamodb:BatchGetItem",
+								"dynamodb:List*",
+								"dynamodb:Describe*",
+								"dynamodb:Scan",
+								"dynamodb:Query",
+								"dynamodb:Update*",
+								"dynamodb:RestoreTable*",
+								"dynamodb:Delete*"
+							],
+							"Resource": [
+								{
+									"Fn::Join": [
+										"",
+										[
+											"arn:aws:dynamodb:",
+											{
+												"Ref": "AWS::Region"
+											},
+											":",
+											{
+												"Ref": "AWS::AccountId"
+											},
+											":table/",
+											{
+												"Fn::ImportValue": {
+													"Fn::Sub": "${apifeebeeamplifyclientGraphQLAPIIdOutput}:GetAtt:UserTable:Name"
+												}
+											}
+										]
+									]
+								},
+								{
+									"Fn::Join": [
+										"",
+										[
+											"arn:aws:dynamodb:",
+											{
+												"Ref": "AWS::Region"
+											},
+											":",
+											{
+												"Ref": "AWS::AccountId"
+											},
+											":table/",
+											{
+												"Fn::ImportValue": {
+													"Fn::Sub": "${apifeebeeamplifyclientGraphQLAPIIdOutput}:GetAtt:UserTable:Name"
+												}
+											},
+											"/index/*"
+										]
+									]
+								}
+							]
+						}
+					]
+				}
+			}
+		}
+	},
+	"Outputs": {
+		"Name": {
+			"Value": {
+				"Ref": "LambdaFunction"
+			}
+		},
+		"Arn": {
+			"Value": {
+				"Fn::GetAtt": [
+					"LambdaFunction",
+					"Arn"
+				]
+			}
+		},
+		"Region": {
+			"Value": {
+				"Ref": "AWS::Region"
+			}
+		},
+		"LambdaExecutionRole": {
+			"Value": {
+				"Ref": "LambdaExecutionRole"
+			}
+		}
+	}
+}

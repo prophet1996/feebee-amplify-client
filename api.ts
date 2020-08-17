@@ -165,22 +165,24 @@ export type DeleteUserInput = {
   id?: string | null,
 };
 
-export type ModelFoodPostFilterInput = {
-  id?: ModelIDInput | null,
-  name?: ModelStringInput | null,
+export type CreateOrderInput = {
+  id?: string | null,
+  userId: string,
+  price: number,
+  postId: string,
+  servings: number,
+  name: string,
+};
+
+export type ModelOrderConditionInput = {
+  userId?: ModelIDInput | null,
   price?: ModelFloatInput | null,
-  description?: ModelStringInput | null,
-  category?: ModelFoodCategoryInput | null,
-  cuisineTags?: ModelStringInput | null,
-  cookingTime?: ModelIntInput | null,
-  cookingDate?: ModelIntInput | null,
-  uploadedImageUrl?: ModelStringInput | null,
+  postId?: ModelStringInput | null,
   servings?: ModelIntInput | null,
-  owner?: ModelIDInput | null,
-  createdBy?: ModelStringInput | null,
-  and?: Array< ModelFoodPostFilterInput | null > | null,
-  or?: Array< ModelFoodPostFilterInput | null > | null,
-  not?: ModelFoodPostFilterInput | null,
+  name?: ModelStringInput | null,
+  and?: Array< ModelOrderConditionInput | null > | null,
+  or?: Array< ModelOrderConditionInput | null > | null,
+  not?: ModelOrderConditionInput | null,
 };
 
 export type ModelIDInput = {
@@ -199,6 +201,48 @@ export type ModelIDInput = {
   size?: ModelSizeInput | null,
 };
 
+export type UpdateOrderInput = {
+  id: string,
+  userId?: string | null,
+  price?: number | null,
+  postId?: string | null,
+  servings?: number | null,
+  name?: string | null,
+};
+
+export type DeleteOrderInput = {
+  id?: string | null,
+};
+
+export enum UserStatus {
+  UNCONFIRMED = "UNCONFIRMED",
+  CONFIRMED = "CONFIRMED",
+  ARCHIVED = "ARCHIVED",
+  COMPROMISED = "COMPROMISED",
+  UNKNOWN = "UNKNOWN",
+  RESET_REQUIRED = "RESET_REQUIRED",
+  FORCE_CHANGE_PASSWORD = "FORCE_CHANGE_PASSWORD",
+}
+
+
+export type ModelFoodPostFilterInput = {
+  id?: ModelIDInput | null,
+  name?: ModelStringInput | null,
+  price?: ModelFloatInput | null,
+  description?: ModelStringInput | null,
+  category?: ModelFoodCategoryInput | null,
+  cuisineTags?: ModelStringInput | null,
+  cookingTime?: ModelIntInput | null,
+  cookingDate?: ModelIntInput | null,
+  uploadedImageUrl?: ModelStringInput | null,
+  servings?: ModelIntInput | null,
+  owner?: ModelIDInput | null,
+  createdBy?: ModelStringInput | null,
+  and?: Array< ModelFoodPostFilterInput | null > | null,
+  or?: Array< ModelFoodPostFilterInput | null > | null,
+  not?: ModelFoodPostFilterInput | null,
+};
+
 export type ModelUserFilterInput = {
   id?: ModelIDInput | null,
   phoneNumber?: ModelStringInput | null,
@@ -211,6 +255,18 @@ export type ModelUserFilterInput = {
   and?: Array< ModelUserFilterInput | null > | null,
   or?: Array< ModelUserFilterInput | null > | null,
   not?: ModelUserFilterInput | null,
+};
+
+export type ModelOrderFilterInput = {
+  id?: ModelIDInput | null,
+  userId?: ModelIDInput | null,
+  price?: ModelFloatInput | null,
+  postId?: ModelStringInput | null,
+  servings?: ModelIntInput | null,
+  name?: ModelStringInput | null,
+  and?: Array< ModelOrderFilterInput | null > | null,
+  or?: Array< ModelOrderFilterInput | null > | null,
+  not?: ModelOrderFilterInput | null,
 };
 
 export enum ModelSortDirection {
@@ -310,6 +366,22 @@ export type CreateUserMutation = {
     aadharCardLink: string,
     documentLink: string,
     owner: string,
+    orders:  {
+      __typename: "ModelOrderConnection",
+      items:  Array< {
+        __typename: "Order",
+        id: string,
+        userId: string,
+        price: number,
+        postId: string,
+        servings: number,
+        name: string,
+        createdAt: string,
+        updatedAt: string,
+        owner: string | null,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -331,6 +403,22 @@ export type UpdateUserMutation = {
     aadharCardLink: string,
     documentLink: string,
     owner: string,
+    orders:  {
+      __typename: "ModelOrderConnection",
+      items:  Array< {
+        __typename: "Order",
+        id: string,
+        userId: string,
+        price: number,
+        postId: string,
+        servings: number,
+        name: string,
+        createdAt: string,
+        updatedAt: string,
+        owner: string | null,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -352,8 +440,107 @@ export type DeleteUserMutation = {
     aadharCardLink: string,
     documentLink: string,
     owner: string,
+    orders:  {
+      __typename: "ModelOrderConnection",
+      items:  Array< {
+        __typename: "Order",
+        id: string,
+        userId: string,
+        price: number,
+        postId: string,
+        servings: number,
+        name: string,
+        createdAt: string,
+        updatedAt: string,
+        owner: string | null,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
+  } | null,
+};
+
+export type CreateOrderMutationVariables = {
+  input: CreateOrderInput,
+  condition?: ModelOrderConditionInput | null,
+};
+
+export type CreateOrderMutation = {
+  createOrder:  {
+    __typename: "Order",
+    id: string,
+    userId: string,
+    price: number,
+    postId: string,
+    servings: number,
+    name: string,
+    createdAt: string,
+    updatedAt: string,
+    owner: string | null,
+  } | null,
+};
+
+export type UpdateOrderMutationVariables = {
+  input: UpdateOrderInput,
+  condition?: ModelOrderConditionInput | null,
+};
+
+export type UpdateOrderMutation = {
+  updateOrder:  {
+    __typename: "Order",
+    id: string,
+    userId: string,
+    price: number,
+    postId: string,
+    servings: number,
+    name: string,
+    createdAt: string,
+    updatedAt: string,
+    owner: string | null,
+  } | null,
+};
+
+export type DeleteOrderMutationVariables = {
+  input: DeleteOrderInput,
+  condition?: ModelOrderConditionInput | null,
+};
+
+export type DeleteOrderMutation = {
+  deleteOrder:  {
+    __typename: "Order",
+    id: string,
+    userId: string,
+    price: number,
+    postId: string,
+    servings: number,
+    name: string,
+    createdAt: string,
+    updatedAt: string,
+    owner: string | null,
+  } | null,
+};
+
+export type PutOrderQuery = {
+  putOrder:  {
+    __typename: "CognitoUser",
+    Username: string,
+    UserAttributes:  Array< {
+      __typename: "Value",
+      Name: string,
+      Value: string | null,
+    } | null > | null,
+    UserCreateDate: string | null,
+    UserLastModifiedDate: string | null,
+    Enabled: boolean | null,
+    UserStatus: UserStatus | null,
+    MFAOptions:  Array< {
+      __typename: "MFAOption",
+      DeliveryMedium: string | null,
+      AttributeName: string | null,
+    } | null > | null,
+    PreferredMfaSetting: string | null,
+    UserMFASettingList: string | null,
   } | null,
 };
 
@@ -426,6 +613,22 @@ export type GetUserQuery = {
     aadharCardLink: string,
     documentLink: string,
     owner: string,
+    orders:  {
+      __typename: "ModelOrderConnection",
+      items:  Array< {
+        __typename: "Order",
+        id: string,
+        userId: string,
+        price: number,
+        postId: string,
+        servings: number,
+        name: string,
+        createdAt: string,
+        updatedAt: string,
+        owner: string | null,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -450,8 +653,68 @@ export type ListUsersQuery = {
       aadharCardLink: string,
       documentLink: string,
       owner: string,
+      orders:  {
+        __typename: "ModelOrderConnection",
+        items:  Array< {
+          __typename: "Order",
+          id: string,
+          userId: string,
+          price: number,
+          postId: string,
+          servings: number,
+          name: string,
+          createdAt: string,
+          updatedAt: string,
+          owner: string | null,
+        } | null > | null,
+        nextToken: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
+    } | null > | null,
+    nextToken: string | null,
+  } | null,
+};
+
+export type GetOrderQueryVariables = {
+  id: string,
+};
+
+export type GetOrderQuery = {
+  getOrder:  {
+    __typename: "Order",
+    id: string,
+    userId: string,
+    price: number,
+    postId: string,
+    servings: number,
+    name: string,
+    createdAt: string,
+    updatedAt: string,
+    owner: string | null,
+  } | null,
+};
+
+export type ListOrdersQueryVariables = {
+  filter?: ModelOrderFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListOrdersQuery = {
+  listOrders:  {
+    __typename: "ModelOrderConnection",
+    items:  Array< {
+      __typename: "Order",
+      id: string,
+      userId: string,
+      price: number,
+      postId: string,
+      servings: number,
+      name: string,
+      createdAt: string,
+      updatedAt: string,
+      owner: string | null,
     } | null > | null,
     nextToken: string | null,
   } | null,
@@ -478,6 +741,22 @@ export type UserByOwnerQuery = {
       aadharCardLink: string,
       documentLink: string,
       owner: string,
+      orders:  {
+        __typename: "ModelOrderConnection",
+        items:  Array< {
+          __typename: "Order",
+          id: string,
+          userId: string,
+          price: number,
+          postId: string,
+          servings: number,
+          name: string,
+          createdAt: string,
+          updatedAt: string,
+          owner: string | null,
+        } | null > | null,
+        nextToken: string | null,
+      } | null,
       createdAt: string,
       updatedAt: string,
     } | null > | null,
@@ -572,6 +851,22 @@ export type OnCreateUserSubscription = {
     aadharCardLink: string,
     documentLink: string,
     owner: string,
+    orders:  {
+      __typename: "ModelOrderConnection",
+      items:  Array< {
+        __typename: "Order",
+        id: string,
+        userId: string,
+        price: number,
+        postId: string,
+        servings: number,
+        name: string,
+        createdAt: string,
+        updatedAt: string,
+        owner: string | null,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -592,6 +887,22 @@ export type OnUpdateUserSubscription = {
     aadharCardLink: string,
     documentLink: string,
     owner: string,
+    orders:  {
+      __typename: "ModelOrderConnection",
+      items:  Array< {
+        __typename: "Order",
+        id: string,
+        userId: string,
+        price: number,
+        postId: string,
+        servings: number,
+        name: string,
+        createdAt: string,
+        updatedAt: string,
+        owner: string | null,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -612,7 +923,80 @@ export type OnDeleteUserSubscription = {
     aadharCardLink: string,
     documentLink: string,
     owner: string,
+    orders:  {
+      __typename: "ModelOrderConnection",
+      items:  Array< {
+        __typename: "Order",
+        id: string,
+        userId: string,
+        price: number,
+        postId: string,
+        servings: number,
+        name: string,
+        createdAt: string,
+        updatedAt: string,
+        owner: string | null,
+      } | null > | null,
+      nextToken: string | null,
+    } | null,
     createdAt: string,
     updatedAt: string,
+  } | null,
+};
+
+export type OnCreateOrderSubscriptionVariables = {
+  owner: string,
+};
+
+export type OnCreateOrderSubscription = {
+  onCreateOrder:  {
+    __typename: "Order",
+    id: string,
+    userId: string,
+    price: number,
+    postId: string,
+    servings: number,
+    name: string,
+    createdAt: string,
+    updatedAt: string,
+    owner: string | null,
+  } | null,
+};
+
+export type OnUpdateOrderSubscriptionVariables = {
+  owner: string,
+};
+
+export type OnUpdateOrderSubscription = {
+  onUpdateOrder:  {
+    __typename: "Order",
+    id: string,
+    userId: string,
+    price: number,
+    postId: string,
+    servings: number,
+    name: string,
+    createdAt: string,
+    updatedAt: string,
+    owner: string | null,
+  } | null,
+};
+
+export type OnDeleteOrderSubscriptionVariables = {
+  owner: string,
+};
+
+export type OnDeleteOrderSubscription = {
+  onDeleteOrder:  {
+    __typename: "Order",
+    id: string,
+    userId: string,
+    price: number,
+    postId: string,
+    servings: number,
+    name: string,
+    createdAt: string,
+    updatedAt: string,
+    owner: string | null,
   } | null,
 };
