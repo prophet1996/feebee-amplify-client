@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: 0,
       border: "none",
       ['& > div > input']:{
-        textAlign: "center",
+        textAlign: "right",
         marginTop:"3px",
         padding:0,
       }
@@ -25,15 +25,17 @@ const useStyles = makeStyles((theme: Theme) =>
 const CustomSlider = ({
   name,
   value,
+  id,
   handleSliderChange,
   ...rest
 }: {
   name: string;
   value: number;
-  handleSliderChange: (value: number) => void;
+  id: string;
+  handleSliderChange: (id:string,value: number) => void;
 }) => {
   const classes = useStyles();
-
+  
   //TODO fix styles of input
   return (
     <div>
@@ -41,7 +43,7 @@ const CustomSlider = ({
       
       <IconButton
         onClick={() => {
-          handleSliderChange(value - 1);
+          handleSliderChange(id,Number(value) - 1);
         }}
         className={classes.noPadding}
         color="primary"
@@ -52,7 +54,7 @@ const CustomSlider = ({
       </IconButton>
       <TextField
         className={classes.textInput}
-        id={`slider${name}`}
+        id={`slider_${name}_${id}`}
         value={value}
         type="number"
         {...rest}
@@ -61,7 +63,7 @@ const CustomSlider = ({
       />
       <IconButton
         onClick={() => {
-          handleSliderChange(value + 1);
+          handleSliderChange(id,Number(value) + 1);
         }}
         className={classes.noPadding}
         color="primary"

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import {
   Dialog,
   AppBar,
@@ -14,8 +14,6 @@ import ArrowBack from "@material-ui/icons/ArrowBack";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import { TransitionProps } from "@material-ui/core/transitions";
 import Slide from "@material-ui/core/Slide";
-import { FoodPostDocument } from "../../src/utils/types";
-// import { getDownloadUrl } from "../../utils/service/firestore";
 import Chip from "@material-ui/core/Chip";
 import { FoodPost as FoodPostType } from "../../src/utils/types";
 
@@ -79,7 +77,7 @@ const FoodPostDetail = ({
     <Dialog
       fullScreen
       open={!!post}
-      // onClose={onClose}
+      onClose={onClose}
       TransitionComponent={Transition}
     >
       <AppBar className={classes.appBar}>

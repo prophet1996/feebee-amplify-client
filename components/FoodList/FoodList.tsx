@@ -69,5 +69,7 @@ const FoodList = () => {
     </List>
   );
 };
+FoodList.whyDidYouRender = true
+// FoodList.whyDidYouRender = { logOnDifferentValues: true };
 
 export default FoodList;

@@ -96,7 +96,7 @@ export default () => {
         <OnboardingSummary
           handleSaveOnBoarding={handleSaveOnboarding}
           handleBack={handleBack}
-          formData={formData}
+          // formData={formData}
         />
       ),
     },

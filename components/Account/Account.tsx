@@ -1,6 +1,5 @@
 import React, {  useState, useContext } from "react";
 import CloseIcon from "@material-ui/icons/Close";
-// import { getUserAccount } from "../../utils/service/firestore";
 import {
  AmplifySignOut,
 } from "@aws-amplify/ui-react";

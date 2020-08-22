@@ -18,9 +18,9 @@ const useStyles = makeStyles((theme: Theme) =>
 export default ({
   handleSaveOnBoarding,
   handleBack,
-  formData,
+  // formData,
 }: {
-  formData: any;
+  // formData: any;
   handleSaveOnBoarding: () => void;
   handleBack: () => void;
 }) => {

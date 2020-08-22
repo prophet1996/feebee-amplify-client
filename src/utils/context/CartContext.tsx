@@ -8,6 +8,7 @@ const defaultCartValue: CartContextType = {
   isCartShowing: false,
   toggleCart: () => {},
   updateCart: (_: CartState) => {},
+  updateServings: (_: string, __: number) => {},
   validateCart: () => new Promise((res) => setTimeout(() => res(true), 1000)),
   totalCartAmount: 0,
 };
@@ -30,19 +31,46 @@ const useEffectCart = () => {
 
 const CartProvider = ({ children }: { children: any }) => {
   const [cartState, setCartState] = useEffectCart();
+
   const additem = (item: CartItem) => {
     if (!item) return;
 
     setCartState({
       ...cartState,
       items: [...cartState.items, item],
-      totalCartAmount: cartState.totalCartAmount + Number(item.price),
+      totalCartAmount:
+        cartState.totalCartAmount + Number(item.price) * Number(item.servings),
     });
   };
+
   const removeItem = (_: string) => {};
+  
   const updateCart = (updatedCart: CartState) => {
     if (updatedCart) setCartState(updatedCart);
     else throw new Error("Cannot update cart state");
+  };
+
+  const updateServings = (id: string, servings: number) => {
+    if (!id || !servings) {
+      throw new Error("Cannot update servings invalid id or servings");
+    }
+   
+    setCartState((prevState: CartState)=>{
+     
+      let newTotalCartAmount = 0;
+    const newItems = prevState.items.map((item) => {
+      let tempItem = item;
+      if (item.id === id) {
+        tempItem = { ...item, servings };
+      }
+      newTotalCartAmount += Number(tempItem.price) * Number(tempItem.servings);
+      return tempItem;
+    });
+
+     return { ...prevState,
+      items: newItems,
+      totalCartAmount: newTotalCartAmount,}
+    });
   };
   const validateCart = () => {
     //TODO connect to graph ql cart validation
@@ -67,6 +95,7 @@ const CartProvider = ({ children }: { children: any }) => {
         clearCart,
         toggleCart,
         updateCart,
+        updateServings,
         validateCart,
       }}
     >

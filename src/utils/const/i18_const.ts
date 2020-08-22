@@ -5,7 +5,10 @@ const labels = {
     toBeDeliveredAt: "Delivery location",
     viewCart:"View Cart",
     addToCart:"Add to Cart",
+    alreadyInCart:"Already in Cart",
     proceedToCheckout:"Go to checkout",
+    placeOrder:"Place order",
+    totalOrderAmount:"Total Amount",
     //message labels
     success: "success",
     fail: "fail",

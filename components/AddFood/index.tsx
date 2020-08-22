@@ -10,11 +10,6 @@ import {
   KeyboardDatePicker,
 } from "@material-ui/pickers";
 import "@date-io/date-fns";
-// import {
-//   getCuisines,
-//   addFoodPost,
-//   uploadPostImage,
-// } from "../../utils/service/firestore"  ;
 import {
   RadioGroup,
   FormControlLabel,
@@ -24,11 +19,11 @@ import {
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Autocomplete from "@material-ui/lab/Autocomplete";
 import { makeStyles, Theme, createStyles } from "@material-ui/core/styles";
-import { foodCategory, FoodCategory,CustomFile } from "../../src/utils/types";
+import { foodCategory, FoodCategory, CustomFile } from "../../src/utils/types";
 import DateFnsUtils from "@date-io/date-fns";
 //Retrun code from successful post submission
 import { CODE } from "../../src/utils/const";
-import { addFoodPost, uploadPostImage } from '../../src/utils/services';
+import { addFoodPost, uploadPostImage } from "../../src/utils/services";
 
 const useStyles = makeStyles((_: Theme) =>
   createStyles({
@@ -50,28 +45,27 @@ const useStyles = makeStyles((_: Theme) =>
 const AddFood = ({
   onCloseAddFood,
   displayName,
-  userId
+  userId,
 }: {
   onCloseAddFood: (statusCode: CODE) => void;
-  displayName:string;
-  userId:string;
+  displayName: string;
+  userId: string;
 }) => {
   const { register, handleSubmit } = useForm();
   //use this save in the food post
-  let [uploadedImageUrl, setuploadedImageUrl] = useState<string >("");
-  const [previewImage, setPreviewImage] = useState<
-  CustomFile | null
-  >(null);
+  let [uploadedImageUrl, setuploadedImageUrl] = useState<string>("");
+  const [previewImage, setPreviewImage] = useState<CustomFile | null>(null);
   const onDrop = useCallback(async (acceptedFiles) => {
-    uploadPostImage(acceptedFiles[0], uuidv4(),userId)
-    .then((uploadedImageUrl:string) => {
-      setPreviewImage({
-        ...acceptedFiles[0],
-        preview: URL.createObjectURL(acceptedFiles[0]),
-      });
-      console.log("acc", acceptedFiles[0]);
-    setuploadedImageUrl(uploadedImageUrl);
-    });
+    uploadPostImage(acceptedFiles[0], uuidv4(), userId).then(
+      (uploadedImageUrl: string | Object) => {
+        setPreviewImage({
+          ...acceptedFiles[0],
+          preview: URL.createObjectURL(acceptedFiles[0]),
+        });
+        console.log("acc", acceptedFiles[0]);
+        setuploadedImageUrl(uploadedImageUrl.toString());
+      }
+    );
   }, []);
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
@@ -81,14 +75,12 @@ const AddFood = ({
     setFoodTypeRadioValue,
   ] = useState<FoodCategory | null>();
   const classes = useStyles();
-  
-  const today = new Date()
-  const tomorrow = new Date(today)
-  tomorrow.setDate(tomorrow.getDate() + 1)
-  
-  const [selectedDate, setSelectedDate] = useState<Date | null>(
-    tomorrow
-  );
+
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(tomorrow.getDate() + 1);
+
+  const [selectedDate, setSelectedDate] = useState<Date | null>(tomorrow);
 
   const [cuisineSelectOpen, setCuisineSelectOpen] = useState(false);
   const [cuisineOptions, setCuisineOptions] = useState<string[]>([]);
@@ -105,7 +97,7 @@ const AddFood = ({
     (async () => {
       // const cuisineList = (await getCuisines()).data();
       //TODO: implement this
-      const cuisineList = {foodList:[]};
+      const cuisineList = { foodList: [] };
       if (active) setCuisineOptions(cuisineList?.foodList);
     })();
 
@@ -126,20 +118,22 @@ const AddFood = ({
 
   const onSubmit = (data: any) => {
     //TODO: implement/fix this
-    addFoodPost({
-      ...data,
-      price:Number(data.price),
-      servings:Number(data.servings),
-      uploadedImageUrl,
-      cuisineTags: Array.from(currentSelectedCuisines),
-      createdBy:displayName,
-    },() => {
-      onCloseAddFood(CODE.SUCCESS);
-    },(err) => {
-      console.log(err);
-    })
-     
-    
+    addFoodPost(
+      {
+        ...data,
+        price: Number(data.price),
+        servings: Number(data.servings),
+        uploadedImageUrl,
+        cuisineTags: Array.from(currentSelectedCuisines),
+        createdBy: displayName,
+      },
+      () => {
+        onCloseAddFood(CODE.SUCCESS);
+      },
+      (err) => {
+        throw new Error("Error: " + err.toString());
+      }
+    );
   };
   return (
     <>
@@ -174,7 +168,7 @@ const AddFood = ({
           inputRef={register()}
           variant="outlined"
         />
-         <TextField
+        <TextField
           id="servings"
           type="number"
           name="servings"
@@ -260,7 +254,7 @@ const AddFood = ({
             });
           }}
           getOptionLabel={(option) => option}
-          options={['Cuisine option']}
+          options={["Cuisine option"]}
           loading={loading}
           renderInput={(params) => (
             <TextField

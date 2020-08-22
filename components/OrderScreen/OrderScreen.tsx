@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useCallback } from "react";
 import {
   Dialog,
   AppBar,
@@ -82,13 +82,13 @@ const OrderScreen = ({
   const user = useUser();
 
   const maxServings = post?.servings || 1;
-  const [orderServings, setOrderServings] = useState(1);
-
-  const handleSliderChange = useCallback((value: number) => {
-    if (value > 0 && value <= maxServings) setOrderServings(value);
+  const { name, price, id } = post;
+  const thisItemInCart = cart.items.find((item) => item.id === id);
+  const cartOrderServing = thisItemInCart?.servings || 1;
+  const handleSliderChange = useCallback((itemId: string, value: number) => {
+    if (value > 0 && value <= maxServings) cart.updateServings(itemId, value);
   }, []);
 
-  const { name, price } = post;
   return (
     <Dialog
       open={!!post}
@@ -98,15 +98,16 @@ const OrderScreen = ({
     >
       <AppBar className={classes.appBar}>
         <Typography variant="caption">{LABELS.toBeDeliveredAt}</Typography>
-        <Typography variant="caption">{user?.personalInfo?.address}</Typography>
+        <Typography variant="caption">{user?.address}</Typography>
       </AppBar>
       <List>
         <ListItem className={classes.orderPrimaryListItem}>
           <ListItemText primary={name} secondary={`₹ ${price}`} />
           <CustomSlider
             name="orderServings"
-            value={orderServings}
+            value={cartOrderServing}
             handleSliderChange={handleSliderChange}
+            id={id}
           />
         </ListItem>
         <Divider />
@@ -122,8 +123,12 @@ const OrderScreen = ({
         aria-label={`${LABELS.addToCart} or ${LABELS.proceedToCheckout}`}
         className={classes.primsecAction}
       >
-        <Button variant="contained" onClick={() => cart.additem(post)}>
-          {LABELS.addToCart}
+        <Button
+          variant="contained"
+          onClick={() => cart.additem({ ...post, servings: cartOrderServing })}
+          disabled={!!thisItemInCart}
+        >
+          {!thisItemInCart ? LABELS.addToCart : LABELS.alreadyInCart}
         </Button>
         <Button variant="contained" color="primary">
           {LABELS.proceedToCheckout}
@@ -132,7 +137,10 @@ const OrderScreen = ({
       <CartRibbon
         numberOfItems={cart.items.length}
         totalCartAmount={cart.totalCartAmount}
-        // onClickViewCart={onClickViewCart}
+        onClickViewCart={() => {
+          onClose();
+          cart.toggleCart();
+        }}
       />
     </Dialog>
   );

@@ -39,6 +39,7 @@ export interface FoodPost {
   cookingDate: string;
   uploadedImageUrl: string;
   servings: number;
+  createdBy:string;
 }
 
 export interface FoodPostDocument {
@@ -69,6 +70,7 @@ export interface CartContextType {
   isCartShowing: boolean;
   toggleCart: () => void;
   updateCart: (_: CartState ) => void;
+  updateServings: (id:string,servings:number) =>void
   validateCart:  ( ) => Promise<boolean>;
   totalCartAmount: number;
 }

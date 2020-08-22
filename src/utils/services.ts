@@ -5,7 +5,7 @@ import { DataStore, Storage } from "aws-amplify";
 export const addFoodPost = async (
   foodPost: FoodPostType,
   onSucess: FnType,
-  onError: (err: string) => {}
+  onError: (err: string) => void
 ) => {
   try {
     await DataStore.save(new FoodPostModel(foodPost));
