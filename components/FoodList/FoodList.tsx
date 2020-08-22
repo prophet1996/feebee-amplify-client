@@ -2,7 +2,6 @@ import List from "@material-ui/core/List";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import React, { useState, useEffect, useCallback } from "react";
 import FoodListItem from "../FoodListItem";
-import { FoodPostDocument } from "../../src/utils/types";
 import FoodPostDetail from "../FoodPostDetail";
 import { OrderScreen } from "..";
 import { getFoodPosts } from "../../src/utils/services";
@@ -52,20 +51,19 @@ const FoodList = () => {
     <List className={classes.root}>
       {posts.map((post: FoodPostType) => (
         <FoodListItem
-          key={post.createdAt?.toDateString()}
           foodPost={post}
           onClick={handlePostClick}
           onClickGetIt={handleClickGetIt}
         />
       ))}
-      {openPostId && (
+      {openPostId &&selectedOpenPost && (
         <FoodPostDetail
           post={selectedOpenPost}
           onClose={handleClosePost}
           onClickGetIt={handleClickGetIt}
         />
       )}
-      {orderPostId && (
+      {orderPostId &&selectedOrderPost&& (
         <OrderScreen post={selectedOrderPost} onClose={handleCloseOrder} />
       )}
     </List>

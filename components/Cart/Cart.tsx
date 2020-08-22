@@ -66,16 +66,10 @@ const Cart = ({
   open: boolean;
 }) => {
   const classes = useStyles();
-  const [account, setAccount]: any = useState();
-  const [currentCart, setCurrentCart] = useState();
+
   // const maxServings =  post?.foodPost.servings || 1;
   const [orderServings, setOrderServings] = useState(1);
-  const _getAccount = async () => {
-    //TODO: implement this
-    // const account = (await getUserAccount()).data();
-    const account = {};
-    setAccount(account);
-  };
+  const [cartValidated,setCartValidated] = useState(false);
   const _updateCart = async () => {
     // const newCart = (await updateCart(cart));
 
@@ -96,8 +90,14 @@ const Cart = ({
       .then((data) => console.log({ data }))
       .catch((err) => console.log("error: ", err));
   };
+
+const _validateCart = async()=>{
+  setCartValidated(await cart.validateCart());
+
+}
+
   useEffect(() => {
-    if (!account) _getAccount();
+    _validateCart();
     _updateCart();
   }, []);
 
@@ -114,7 +114,7 @@ const Cart = ({
       <AppBar className={classes.appBar}>
         <Typography variant="caption">{LABELS.toBeDeliveredAt}</Typography>
         <Typography variant="caption">
-          {account?.data?.personalInfo?.address}
+          {/* {account?.data?.personalInfo?.address} */}
         </Typography>
       </AppBar>
       <List>

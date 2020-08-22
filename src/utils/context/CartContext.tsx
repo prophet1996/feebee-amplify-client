@@ -2,12 +2,13 @@ import { useContext, createContext, useState, useEffect } from "react";
 import { CartState, CartItem, CartContextType } from "../types";
 const defaultCartValue: CartContextType = {
   items: [],
-  additem: (_: CartItem | undefined) => {},
+  additem: (_: CartItem) => {},
   removeItem: (_: string) => {},
   clearCart: () => {},
   isCartShowing: false,
   toggleCart: () => {},
-  updateCart: (_: CartState | undefined) => {},
+  updateCart: (_: CartState) => {},
+  validateCart: () => new Promise((res) => setTimeout(() => res(true), 1000)),
   totalCartAmount: 0,
 };
 const CartContext = createContext(defaultCartValue);
@@ -29,7 +30,7 @@ const useEffectCart = () => {
 
 const CartProvider = ({ children }: { children: any }) => {
   const [cartState, setCartState] = useEffectCart();
-  const additem = (item: CartItem | undefined) => {
+  const additem = (item: CartItem) => {
     if (!item) return;
 
     setCartState({
@@ -39,19 +40,18 @@ const CartProvider = ({ children }: { children: any }) => {
     });
   };
   const removeItem = (_: string) => {};
-  const updateCart = (updatedCart: CartState | undefined) => {
+  const updateCart = (updatedCart: CartState) => {
     if (updatedCart) setCartState(updatedCart);
     else throw new Error("Cannot update cart state");
+  };
+  const validateCart = () => {
+    //TODO connect to graph ql cart validation
+    return new Promise<boolean>((res) => setTimeout(() => res(true), 60000));
   };
   const clearCart = () => setCartState(defaultCartValue);
 
   const toggleCart = () => {
     setCartState((prevState: CartState) => {
-      console.log("bruh");
-      console.log({
-        ...prevState,
-        isCartShowing: !prevState.isCartShowing,
-      });
       return {
         ...prevState,
         isCartShowing: !prevState.isCartShowing,
@@ -67,6 +67,7 @@ const CartProvider = ({ children }: { children: any }) => {
         clearCart,
         toggleCart,
         updateCart,
+        validateCart,
       }}
     >
       {children}
