@@ -58,7 +58,7 @@ const AddFood = ({
 }) => {
   const { register, handleSubmit } = useForm();
   //use this save in the food post
-  let [uploadedImageUrl, setuploadedImageUrl] = useState<string | null>(null);
+  let [uploadedImageUrl, setuploadedImageUrl] = useState<string >("");
   const [previewImage, setPreviewImage] = useState<
   CustomFile | null
   >(null);
@@ -81,8 +81,13 @@ const AddFood = ({
     setFoodTypeRadioValue,
   ] = useState<FoodCategory | null>();
   const classes = useStyles();
+  
+  const today = new Date()
+  const tomorrow = new Date(today)
+  tomorrow.setDate(tomorrow.getDate() + 1)
+  
   const [selectedDate, setSelectedDate] = useState<Date | null>(
-    new Date("2014-08-18T21:11:54")
+    tomorrow
   );
 
   const [cuisineSelectOpen, setCuisineSelectOpen] = useState(false);
@@ -188,8 +193,8 @@ const AddFood = ({
           <KeyboardDatePicker
             margin="normal"
             name="cookingDate"
-            id="date-picker-dialog"
-            label="Date picker dialog"
+            id="cookingDate"
+            label="Cooking Date"
             format="MM/dd/yyyy"
             value={selectedDate}
             inputRef={register()}
@@ -201,9 +206,9 @@ const AddFood = ({
           <KeyboardTimePicker
             margin="normal"
             name="cookingTime"
-            id="time-picker"
+            id="cookingTime"
             inputRef={register()}
-            label="Time picker"
+            label="Food would be ready by"
             value={selectedDate}
             onChange={handleDateChange}
             KeyboardButtonProps={{

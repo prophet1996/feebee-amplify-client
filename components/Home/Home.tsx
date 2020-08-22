@@ -49,7 +49,7 @@ const Home = () => {
     <>
       {currentNavigationElement}
 
-      {cart.isCartShowing && (
+      {cart && cart.isCartShowing && (
         <Cart
           cart={cart}
           onClose={handleClickViewCart}

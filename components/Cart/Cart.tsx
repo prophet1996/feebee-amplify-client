@@ -74,6 +74,8 @@ const Cart = ({
   // const maxServings =  post?.foodPost.servings || 1;
   const [orderServings, setOrderServings] = useState(1);
  
+
+  const [cartValidated,setCartValidated] = useState(false);
   const _updateCart = async () => {
     // const newCart = (await updateCart(cart));
 
@@ -94,7 +96,14 @@ const Cart = ({
       .then((data) => console.log({ data }))
       .catch((err) => console.log("error: ", err));
   };
+
+const _validateCart = async()=>{
+  setCartValidated(await cart.validateCart());
+
+}
+
   useEffect(() => {
+    _validateCart();
     _updateCart();
   }, []);
 

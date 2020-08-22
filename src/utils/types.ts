@@ -29,6 +29,7 @@ export const foodCategory = {
 export type FoodCategory = "VEG" | "NONVEG";
 
 export interface FoodPost {
+  id: string;
   name: string;
   price: number;
   description: string;
@@ -38,7 +39,6 @@ export interface FoodPost {
   cookingDate: string;
   uploadedImageUrl: string;
   servings: number;
-  createdBy: string;
 }
 
 export interface FoodPostDocument {
@@ -52,8 +52,8 @@ export interface CustomFile extends File {
   preview: string;
   path: string;
 }
-
-export interface CartItem extends FoodPostDocument {}
+//only for extension purpose
+export interface CartItem extends FoodPost {}
 
 export interface CartState {
   items: CartItem[];
@@ -63,12 +63,13 @@ export interface CartState {
 
 export interface CartContextType {
   items: CartItem[] | [];
-  additem: (_: CartItem | undefined) => void;
+  additem: (_: CartItem ) => void;
   removeItem: (_: string) => void;
   clearCart: () => void;
   isCartShowing: boolean;
   toggleCart: () => void;
-  updateCart: (_: CartState | undefined) => void;
+  updateCart: (_: CartState ) => void;
+  validateCart:  ( ) => Promise<boolean>;
   totalCartAmount: number;
 }
 

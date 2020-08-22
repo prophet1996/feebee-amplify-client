@@ -32,7 +32,7 @@ export const getFoodPosts = async (
 export const uploadPostImage  = (file:any,path:string,userId:string)=>{
   
   return Storage.put(`${userId}/${path}-${file?.name}`, file, {
-    contentType: file?.type
+    contentType: file?.type,
 }).then((result:any)=>{
   return Storage.get(result.key as string,{level:"public"})
 })
