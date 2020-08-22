@@ -33,16 +33,31 @@ type User
   displayName: String!
   firstName: String!
   lastName: String!
-  aadharCardLink: String!
+  aadharCardLink: String! 
   documentLink: String!
   owner: ID!
-  orders: [ Order] @connection(keyName: "byUser",fields: ["id"],limit:20)
+  cart: Cart @connection
+  orders: [Order] @connection(keyName: "byUser", fields: ["id"], limit: 20)
 }
 
-type Order @model 
-@auth(rules: [{ allow: owner, operations: [create, update, read] }])
- @key(name: "byUser", fields: ["userId", "postId"]) 
-@aws_iam @aws_cognito_user_pools {
+type Cart
+  @model
+  @aws_iam
+  @aws_cognito_user_pools
+  @key(name: "CartByOwner", fields: ["owner"], queryField: "CartByOwner")
+  @auth(rules: [{ allow: owner, operations: [create, update, read,delete] }]) {
+  id: ID!
+  state: CartState
+  value: Float!
+  owner: ID!
+}
+
+type Order
+  @model
+  @auth(rules: [{ allow: owner, operations: [create, update, read] }])
+  @key(name: "byUser", fields: ["userId", "postId"])
+  @aws_iam
+  @aws_cognito_user_pools {
   id: ID!
   userId: ID!
   price: Float!
@@ -76,6 +91,17 @@ type MFAOption {
   AttributeName: String
 }
 enum UserStatus {
+  UNCONFIRMED
+  CONFIRMED
+  ARCHIVED
+  COMPROMISED
+  UNKNOWN
+  RESET_REQUIRED
+  FORCE_CHANGE_PASSWORD
+}
+
+
+enum CartState {
   UNCONFIRMED
   CONFIRMED
   ARCHIVED

@@ -81,6 +81,14 @@ export const getUser = /* GraphQL */ `
       aadharCardLink
       documentLink
       owner
+      cart {
+        id
+        state
+        value
+        owner
+        createdAt
+        updatedAt
+      }
       orders {
         items {
           id
@@ -116,6 +124,14 @@ export const listUsers = /* GraphQL */ `
         aadharCardLink
         documentLink
         owner
+        cart {
+          id
+          state
+          value
+          owner
+          createdAt
+          updatedAt
+        }
         orders {
           items {
             id
@@ -130,6 +146,37 @@ export const listUsers = /* GraphQL */ `
           }
           nextToken
         }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const getCart = /* GraphQL */ `
+  query GetCart($id: ID!) {
+    getCart(id: $id) {
+      id
+      state
+      value
+      owner
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const listCarts = /* GraphQL */ `
+  query ListCarts(
+    $filter: ModelCartFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listCarts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        id
+        state
+        value
+        owner
         createdAt
         updatedAt
       }
@@ -198,6 +245,14 @@ export const userByOwner = /* GraphQL */ `
         aadharCardLink
         documentLink
         owner
+        cart {
+          id
+          state
+          value
+          owner
+          createdAt
+          updatedAt
+        }
         orders {
           items {
             id
@@ -212,6 +267,33 @@ export const userByOwner = /* GraphQL */ `
           }
           nextToken
         }
+        createdAt
+        updatedAt
+      }
+      nextToken
+    }
+  }
+`;
+export const cartByOwner = /* GraphQL */ `
+  query CartByOwner(
+    $owner: ID
+    $sortDirection: ModelSortDirection
+    $filter: ModelCartFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    CartByOwner(
+      owner: $owner
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        state
+        value
+        owner
         createdAt
         updatedAt
       }

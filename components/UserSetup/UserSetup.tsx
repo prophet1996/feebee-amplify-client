@@ -30,7 +30,7 @@ function getStepContent(stepIndex: number) {
 }
 
 const initialFormValues = {
-  personalInfo: { firstName: "", lastName: "", username: "" },
+  personalInfo: { firstName: "", lastName: "", username: "" ,address:""},
   preferences: { firstName: "", lastName: "", username: "" },
   KYC: { uploadedKYCImageUrl: "", uploadedProfileImageUrl: "" },
 };

@@ -136,6 +136,7 @@ export type CreateUserInput = {
   aadharCardLink: string,
   documentLink: string,
   owner: string,
+  userCartId?: string | null,
 };
 
 export type ModelUserConditionInput = {
@@ -150,6 +151,17 @@ export type ModelUserConditionInput = {
   not?: ModelUserConditionInput | null,
 };
 
+export enum CartState {
+  UNCONFIRMED = "UNCONFIRMED",
+  CONFIRMED = "CONFIRMED",
+  ARCHIVED = "ARCHIVED",
+  COMPROMISED = "COMPROMISED",
+  UNKNOWN = "UNKNOWN",
+  RESET_REQUIRED = "RESET_REQUIRED",
+  FORCE_CHANGE_PASSWORD = "FORCE_CHANGE_PASSWORD",
+}
+
+
 export type UpdateUserInput = {
   id: string,
   phoneNumber?: string | null,
@@ -159,9 +171,41 @@ export type UpdateUserInput = {
   aadharCardLink?: string | null,
   documentLink?: string | null,
   owner?: string | null,
+  userCartId?: string | null,
 };
 
 export type DeleteUserInput = {
+  id?: string | null,
+};
+
+export type CreateCartInput = {
+  id?: string | null,
+  state?: CartState | null,
+  value: number,
+  owner: string,
+};
+
+export type ModelCartConditionInput = {
+  state?: ModelCartStateInput | null,
+  value?: ModelFloatInput | null,
+  and?: Array< ModelCartConditionInput | null > | null,
+  or?: Array< ModelCartConditionInput | null > | null,
+  not?: ModelCartConditionInput | null,
+};
+
+export type ModelCartStateInput = {
+  eq?: CartState | null,
+  ne?: CartState | null,
+};
+
+export type UpdateCartInput = {
+  id: string,
+  state?: CartState | null,
+  value?: number | null,
+  owner?: string | null,
+};
+
+export type DeleteCartInput = {
   id?: string | null,
 };
 
@@ -255,6 +299,16 @@ export type ModelUserFilterInput = {
   and?: Array< ModelUserFilterInput | null > | null,
   or?: Array< ModelUserFilterInput | null > | null,
   not?: ModelUserFilterInput | null,
+};
+
+export type ModelCartFilterInput = {
+  id?: ModelIDInput | null,
+  state?: ModelCartStateInput | null,
+  value?: ModelFloatInput | null,
+  owner?: ModelIDInput | null,
+  and?: Array< ModelCartFilterInput | null > | null,
+  or?: Array< ModelCartFilterInput | null > | null,
+  not?: ModelCartFilterInput | null,
 };
 
 export type ModelOrderFilterInput = {
@@ -366,6 +420,15 @@ export type CreateUserMutation = {
     aadharCardLink: string,
     documentLink: string,
     owner: string,
+    cart:  {
+      __typename: "Cart",
+      id: string,
+      state: CartState | null,
+      value: number,
+      owner: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     orders:  {
       __typename: "ModelOrderConnection",
       items:  Array< {
@@ -403,6 +466,15 @@ export type UpdateUserMutation = {
     aadharCardLink: string,
     documentLink: string,
     owner: string,
+    cart:  {
+      __typename: "Cart",
+      id: string,
+      state: CartState | null,
+      value: number,
+      owner: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     orders:  {
       __typename: "ModelOrderConnection",
       items:  Array< {
@@ -440,6 +512,15 @@ export type DeleteUserMutation = {
     aadharCardLink: string,
     documentLink: string,
     owner: string,
+    cart:  {
+      __typename: "Cart",
+      id: string,
+      state: CartState | null,
+      value: number,
+      owner: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     orders:  {
       __typename: "ModelOrderConnection",
       items:  Array< {
@@ -456,6 +537,57 @@ export type DeleteUserMutation = {
       } | null > | null,
       nextToken: string | null,
     } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type CreateCartMutationVariables = {
+  input: CreateCartInput,
+  condition?: ModelCartConditionInput | null,
+};
+
+export type CreateCartMutation = {
+  createCart:  {
+    __typename: "Cart",
+    id: string,
+    state: CartState | null,
+    value: number,
+    owner: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type UpdateCartMutationVariables = {
+  input: UpdateCartInput,
+  condition?: ModelCartConditionInput | null,
+};
+
+export type UpdateCartMutation = {
+  updateCart:  {
+    __typename: "Cart",
+    id: string,
+    state: CartState | null,
+    value: number,
+    owner: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type DeleteCartMutationVariables = {
+  input: DeleteCartInput,
+  condition?: ModelCartConditionInput | null,
+};
+
+export type DeleteCartMutation = {
+  deleteCart:  {
+    __typename: "Cart",
+    id: string,
+    state: CartState | null,
+    value: number,
+    owner: string,
     createdAt: string,
     updatedAt: string,
   } | null,
@@ -613,6 +745,15 @@ export type GetUserQuery = {
     aadharCardLink: string,
     documentLink: string,
     owner: string,
+    cart:  {
+      __typename: "Cart",
+      id: string,
+      state: CartState | null,
+      value: number,
+      owner: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     orders:  {
       __typename: "ModelOrderConnection",
       items:  Array< {
@@ -653,6 +794,15 @@ export type ListUsersQuery = {
       aadharCardLink: string,
       documentLink: string,
       owner: string,
+      cart:  {
+        __typename: "Cart",
+        id: string,
+        state: CartState | null,
+        value: number,
+        owner: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
       orders:  {
         __typename: "ModelOrderConnection",
         items:  Array< {
@@ -669,6 +819,44 @@ export type ListUsersQuery = {
         } | null > | null,
         nextToken: string | null,
       } | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null > | null,
+    nextToken: string | null,
+  } | null,
+};
+
+export type GetCartQueryVariables = {
+  id: string,
+};
+
+export type GetCartQuery = {
+  getCart:  {
+    __typename: "Cart",
+    id: string,
+    state: CartState | null,
+    value: number,
+    owner: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type ListCartsQueryVariables = {
+  filter?: ModelCartFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type ListCartsQuery = {
+  listCarts:  {
+    __typename: "ModelCartConnection",
+    items:  Array< {
+      __typename: "Cart",
+      id: string,
+      state: CartState | null,
+      value: number,
+      owner: string,
       createdAt: string,
       updatedAt: string,
     } | null > | null,
@@ -741,6 +929,15 @@ export type UserByOwnerQuery = {
       aadharCardLink: string,
       documentLink: string,
       owner: string,
+      cart:  {
+        __typename: "Cart",
+        id: string,
+        state: CartState | null,
+        value: number,
+        owner: string,
+        createdAt: string,
+        updatedAt: string,
+      } | null,
       orders:  {
         __typename: "ModelOrderConnection",
         items:  Array< {
@@ -757,6 +954,30 @@ export type UserByOwnerQuery = {
         } | null > | null,
         nextToken: string | null,
       } | null,
+      createdAt: string,
+      updatedAt: string,
+    } | null > | null,
+    nextToken: string | null,
+  } | null,
+};
+
+export type CartByOwnerQueryVariables = {
+  owner?: string | null,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelCartFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type CartByOwnerQuery = {
+  CartByOwner:  {
+    __typename: "ModelCartConnection",
+    items:  Array< {
+      __typename: "Cart",
+      id: string,
+      state: CartState | null,
+      value: number,
+      owner: string,
       createdAt: string,
       updatedAt: string,
     } | null > | null,
@@ -851,6 +1072,15 @@ export type OnCreateUserSubscription = {
     aadharCardLink: string,
     documentLink: string,
     owner: string,
+    cart:  {
+      __typename: "Cart",
+      id: string,
+      state: CartState | null,
+      value: number,
+      owner: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     orders:  {
       __typename: "ModelOrderConnection",
       items:  Array< {
@@ -887,6 +1117,15 @@ export type OnUpdateUserSubscription = {
     aadharCardLink: string,
     documentLink: string,
     owner: string,
+    cart:  {
+      __typename: "Cart",
+      id: string,
+      state: CartState | null,
+      value: number,
+      owner: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     orders:  {
       __typename: "ModelOrderConnection",
       items:  Array< {
@@ -923,6 +1162,15 @@ export type OnDeleteUserSubscription = {
     aadharCardLink: string,
     documentLink: string,
     owner: string,
+    cart:  {
+      __typename: "Cart",
+      id: string,
+      state: CartState | null,
+      value: number,
+      owner: string,
+      createdAt: string,
+      updatedAt: string,
+    } | null,
     orders:  {
       __typename: "ModelOrderConnection",
       items:  Array< {
@@ -939,6 +1187,54 @@ export type OnDeleteUserSubscription = {
       } | null > | null,
       nextToken: string | null,
     } | null,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnCreateCartSubscriptionVariables = {
+  owner: string,
+};
+
+export type OnCreateCartSubscription = {
+  onCreateCart:  {
+    __typename: "Cart",
+    id: string,
+    state: CartState | null,
+    value: number,
+    owner: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnUpdateCartSubscriptionVariables = {
+  owner: string,
+};
+
+export type OnUpdateCartSubscription = {
+  onUpdateCart:  {
+    __typename: "Cart",
+    id: string,
+    state: CartState | null,
+    value: number,
+    owner: string,
+    createdAt: string,
+    updatedAt: string,
+  } | null,
+};
+
+export type OnDeleteCartSubscriptionVariables = {
+  owner: string,
+};
+
+export type OnDeleteCartSubscription = {
+  onDeleteCart:  {
+    __typename: "Cart",
+    id: string,
+    state: CartState | null,
+    value: number,
+    owner: string,
     createdAt: string,
     updatedAt: string,
   } | null,

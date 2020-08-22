@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback,useContext } from "react";
 import { API, graphqlOperation } from "aws-amplify";
 import {
   Dialog,
@@ -17,6 +17,8 @@ import {
   CartState,
   CartContextType,
 } from "../../src/utils/types";
+import UserContext from '../../src/context/UserProvider';
+
 import { LABELS } from "../../src/utils/const";
 // import { getUserAccount, updateCart } from "../../utils/service/firestore";
 import CustomSlider from "../CustomSlider";
@@ -66,16 +68,12 @@ const Cart = ({
   open: boolean;
 }) => {
   const classes = useStyles();
-  const [account, setAccount]: any = useState();
   const [currentCart, setCurrentCart] = useState();
+  const user = useContext(UserContext);
+
   // const maxServings =  post?.foodPost.servings || 1;
   const [orderServings, setOrderServings] = useState(1);
-  const _getAccount = async () => {
-    //TODO: implement this
-    // const account = (await getUserAccount()).data();
-    const account = {};
-    setAccount(account);
-  };
+ 
   const _updateCart = async () => {
     // const newCart = (await updateCart(cart));
 
@@ -97,12 +95,11 @@ const Cart = ({
       .catch((err) => console.log("error: ", err));
   };
   useEffect(() => {
-    if (!account) _getAccount();
     _updateCart();
   }, []);
 
   const handleSliderChange = useCallback((value: number) => {
-    // if (value > 0 && value <= maxServings) setOrderServings(value);
+    if (value > 0 && value <= maxServings) setOrderServings(value);
   }, []);
   return (
     <Dialog
@@ -114,7 +111,7 @@ const Cart = ({
       <AppBar className={classes.appBar}>
         <Typography variant="caption">{LABELS.toBeDeliveredAt}</Typography>
         <Typography variant="caption">
-          {account?.data?.personalInfo?.address}
+          {/* {account?.data?.personalInfo?.address} */}
         </Typography>
       </AppBar>
       <List>

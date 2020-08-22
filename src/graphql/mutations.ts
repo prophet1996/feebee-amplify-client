@@ -85,6 +85,14 @@ export const createUser = /* GraphQL */ `
       aadharCardLink
       documentLink
       owner
+      cart {
+        id
+        state
+        value
+        owner
+        createdAt
+        updatedAt
+      }
       orders {
         items {
           id
@@ -118,6 +126,14 @@ export const updateUser = /* GraphQL */ `
       aadharCardLink
       documentLink
       owner
+      cart {
+        id
+        state
+        value
+        owner
+        createdAt
+        updatedAt
+      }
       orders {
         items {
           id
@@ -151,6 +167,14 @@ export const deleteUser = /* GraphQL */ `
       aadharCardLink
       documentLink
       owner
+      cart {
+        id
+        state
+        value
+        owner
+        createdAt
+        updatedAt
+      }
       orders {
         items {
           id
@@ -165,6 +189,51 @@ export const deleteUser = /* GraphQL */ `
         }
         nextToken
       }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const createCart = /* GraphQL */ `
+  mutation CreateCart(
+    $input: CreateCartInput!
+    $condition: ModelCartConditionInput
+  ) {
+    createCart(input: $input, condition: $condition) {
+      id
+      state
+      value
+      owner
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const updateCart = /* GraphQL */ `
+  mutation UpdateCart(
+    $input: UpdateCartInput!
+    $condition: ModelCartConditionInput
+  ) {
+    updateCart(input: $input, condition: $condition) {
+      id
+      state
+      value
+      owner
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const deleteCart = /* GraphQL */ `
+  mutation DeleteCart(
+    $input: DeleteCartInput!
+    $condition: ModelCartConditionInput
+  ) {
+    deleteCart(input: $input, condition: $condition) {
+      id
+      state
+      value
+      owner
       createdAt
       updatedAt
     }

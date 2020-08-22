@@ -3,6 +3,7 @@ export interface PersonalInfo {
   displayName: string;
   firstName: string;
   lastName: string;
+  address: string;
 }
 export interface preferences {
   // phoneNumber:string;

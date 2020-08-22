@@ -77,6 +77,16 @@ export default ({
           helperText={errors.username ? LABELS.fillThisField:null}
         />
         <TextField
+          id="address"
+          name="address"
+          label="address"
+          error={errors.address}
+          defaultValue={initialValue.address}
+          variant="outlined"
+          inputRef={register({ required: true })}
+          helperText={errors.address ? LABELS.fillThisField:null}
+        />
+        <TextField
           id="phoneNumber"
           name="phoneNumber"
           value="+919380556186"

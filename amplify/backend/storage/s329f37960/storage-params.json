@@ -1,9 +1,0 @@
-{
-    "groupPermissionMap": {
-        "feebeeAuthUserPoolGroup": [
-            "create/update",
-            "read",
-            "delete"
-        ]
-    }
-}

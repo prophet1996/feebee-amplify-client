@@ -73,6 +73,14 @@ export const onCreateUser = /* GraphQL */ `
       aadharCardLink
       documentLink
       owner
+      cart {
+        id
+        state
+        value
+        owner
+        createdAt
+        updatedAt
+      }
       orders {
         items {
           id
@@ -103,6 +111,14 @@ export const onUpdateUser = /* GraphQL */ `
       aadharCardLink
       documentLink
       owner
+      cart {
+        id
+        state
+        value
+        owner
+        createdAt
+        updatedAt
+      }
       orders {
         items {
           id
@@ -133,6 +149,14 @@ export const onDeleteUser = /* GraphQL */ `
       aadharCardLink
       documentLink
       owner
+      cart {
+        id
+        state
+        value
+        owner
+        createdAt
+        updatedAt
+      }
       orders {
         items {
           id
@@ -147,6 +171,42 @@ export const onDeleteUser = /* GraphQL */ `
         }
         nextToken
       }
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onCreateCart = /* GraphQL */ `
+  subscription OnCreateCart($owner: String!) {
+    onCreateCart(owner: $owner) {
+      id
+      state
+      value
+      owner
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onUpdateCart = /* GraphQL */ `
+  subscription OnUpdateCart($owner: String!) {
+    onUpdateCart(owner: $owner) {
+      id
+      state
+      value
+      owner
+      createdAt
+      updatedAt
+    }
+  }
+`;
+export const onDeleteCart = /* GraphQL */ `
+  subscription OnDeleteCart($owner: String!) {
+    onDeleteCart(owner: $owner) {
+      id
+      state
+      value
+      owner
       createdAt
       updatedAt
     }
