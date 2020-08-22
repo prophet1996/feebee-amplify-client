@@ -46,3 +46,7 @@ Check out sample function code generated in <project-dir>/amplify/backend/functi
 
 //PR this
 https://github.com/aws-amplify/amplify-cli/issues/678
+
+
+Rfresh backend
+amplify pull --appId dm60ewumdok9n --envName dev
