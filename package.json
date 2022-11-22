@@ -20,7 +20,7 @@
         "@welldone-software/why-did-you-render": "^4.2.4",
         "aws-amplify": "^3.0.20",
         "date-fns": "^2.8.1",
-        "next": "9.4.4",
+        "next": "13.0.4",
         "react": "16.13.1",
         "react-dom": "16.13.1",
         "react-dropzone": "^11.0.1",
